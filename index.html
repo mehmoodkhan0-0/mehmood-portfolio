@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mehmood Lodhi — Cybersecurity student at Air University. Top 4% worldwide on TryHackMe.">
+<title>Mehmood Lodhi® — Cybersecurity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600;700;800&family=Italiana&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ================= PRELOADER ================= -->
+<div class="cyber-grid" aria-hidden="true"></div>
+
+<canvas id="ambient-particle-canvas"></canvas>
+
+<div id="preloader">
+  <div class="curtain"></div>
+  <div class="pre-inner"><div class="pre-name">Mehmood Lodhi</div></div>
+  <div class="pre-count">00</div>
+  <div class="pre-bar"><i></i></div>
+</div>
+
+<!-- ================= GLOBAL UI ================= -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"><span class="ring-txt"></span></div>
+<div id="pbar"></div>
+<canvas id="webgl"></canvas>
+
+<!-- ================= FULLSCREEN MENU ================= -->
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-inner">
+    <a class="m-link serif" href="#about">About</a>
+    <a class="m-link serif" href="#journey">Journey</a>
+    <a class="m-link serif" href="#skills">Arsenal</a>
+    <a class="m-link serif" href="#ops">Operations</a>
+    <a class="m-link serif" href="#certs">Clearance</a>
+    <a class="m-link serif" href="#contact">Channel</a>
+  </div>
+  <div class="menu-foot">
+    <a href="https://www.linkedin.com/in/mehmood-lodhi-79141a370/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://instagram.com/127.0.0.1x" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</div>
+
+<!-- ================= NAV ================= -->
+<nav id="nav">
+  <span class="logo">ML®</span>
+  <div class="nav-links">
+    <a href="#about" data-cursor="→">About</a>
+    <a href="#journey" data-cursor="→">Journey</a>
+    <a href="#skills" data-cursor="→">Arsenal</a>
+    <a href="#ops" data-cursor="→">Operations</a>
+    <a href="#certs" data-cursor="→">Clearance</a>
+    <a href="#contact" data-cursor="→">Channel</a>
+  </div>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+</nav>
+
+<div class="skew-wrap" id="skewWrap">
+
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <div class="hero-meta">
+    <span>Islamabad · PK</span><span class="dot">●</span>
+    <span>Cybersecurity</span><span class="dot">●</span>
+    <span id="clock">00:00</span>
+  </div>
+  <div class="hero-glass">
+  <div class="system-hud" aria-hidden="true">
+    <div class="hud-item"><span>STATUS</span>: SECURE</div>
+    <div class="hud-divider"></div>
+    <div class="hud-item"><span>ENCRYPTION</span>: AES-256</div>
+    <div class="hud-divider"></div>
+    <div class="hud-item" id="dynamic-latency"><span>LATENCY</span>: 12ms</div>
+  </div>
+  <h1 class="display hero-name">
+    <span class="mask-line"><span class="split-chars">MEHMOOD</span></span>
+    <span class="mask-line"><span class="grad serif" style="font-size:1.04em">Lodhi</span></span>
+    <span class="mask-line"><span class="hero-tag">— SECURING THE DIGITAL FRONTIER</span></span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-role mask-line"><span><b>BS Cybersecurity @ Air University.</b> 18 years old. Top 4% worldwide on TryHackMe. Trained to think like an attacker, built to defend.</span></p>
+    <div class="hero-cta">
+      <span class="badge">⬡ Top 4% THM Worldwide</span>
+      <a class="btn magnetic" href="#skills" data-cursor=""><span class="fill"></span>View Arsenal <span class="arr">→</span></a>
+      <a class="btn gold magnetic" href="#contact" data-cursor=""><span class="fill"></span>Contact <span class="arr">→</span></a>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee"><div class="marquee-track" id="mq"></div></div>
+
+<!-- ================= 01 ABOUT ================= -->
+<section id="about">
+  <div class="sec-label"><span class="sec-num">01</span><span>Identity File</span></div>
+  <div class="grid">
+    <div class="about-visual"><div class="about-frame"><span class="serif about-mark">ML</span></div></div>
+    <div>
+      <p class="about-lede rev">I break systems to understand them — then build them <em>unbreakable.</em></p>
+      <p class="about-body rev">After completing O-Levels and A-Levels, I committed fully to security. Now a BS Cybersecurity student at Air University, I've climbed into the top 4% worldwide on TryHackMe with 85+ rooms completed, earned the Google Cybersecurity Analyst Certificate, and finished TryHackMe's Advent of Cyber along with multiple THM certifications.</p>
+      <div class="chips rev">
+        <span class="chip">O-Levels</span><span class="chip">A-Levels</span>
+        <span class="chip">Age 18</span><span class="chip">Air University</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 JOURNEY ================= -->
+<section id="journey">
+  <div class="sec-label"><span class="sec-num">02</span><span>The Journey</span></div>
+  <h2 class="display serif sec-head">Trajectory</h2>
+  <div class="timeline">
+    <i class="tl-line"></i>
+    <div id="tlItems"></div>
+  </div>
+</section>
+
+<!-- ================= 03 SKILLS ================= -->
+<section id="skills">
+  <div class="sec-label"><span class="sec-num">03</span><span>Arsenal</span></div>
+  <h2 class="display serif sec-head">Capabilities</h2>
+  <div id="skillList"></div>
+</section>
+
+<!-- ================= 04 OPERATIONS (horizontal) ================= -->
+<section id="ops">
+  <div class="sec-label"><span class="sec-num">04</span><span>Field Operations</span></div>
+  <div class="ops-viewport">
+    <div class="ops-track" id="opsTrack"></div>
+  </div>
+</section>
+
+<!-- ================= 05 CERTS ================= -->
+<section id="certs">
+  <div class="sec-label"><span class="sec-num">05</span><span>Clearance Level</span></div>
+  <div class="carousel-stage">
+    <div class="carousel" id="carousel"></div>
+  </div>
+  <p class="carousel-hint">Drag · Scroll · Hover to flip</p>
+</section>
+
+<!-- ================= 06 STATS ================= -->
+<section id="stats">
+  <div class="sec-label"><span class="sec-num">06</span><span>Intel Report</span></div>
+  <div class="stats-grid" id="statsPanel">
+    <div class="stat"><span class="orb"></span><div class="num">Top <b data-t="4">0</b>%</div><div class="lbl">Worldwide · TryHackMe</div></div>
+    <div class="stat"><span class="orb" style="animation-duration:8s"></span><div class="num"><b data-t="85">0</b>+</div><div class="lbl">Rooms Completed</div></div>
+    <div class="stat"><span class="orb" style="animation-duration:5s"></span><div class="num"><b data-t="3">0</b>+</div><div class="lbl">Certifications</div></div>
+    <div class="stat"><span class="orb" style="animation-duration:9s"></span><div class="num"><b data-t="1">0</b></div><div class="lbl">Goal · Secure The World</div></div>
+  </div>
+</section>
+
+<!-- ================= 07 CONTACT ================= -->
+<section id="contact">
+  <div class="sec-label"><span class="sec-num">07</span><span>Open Channel</span></div>
+  <h2 class="contact-big">
+    <span class="mask-line"><span>Let's build something</span></span>
+    <span class="mask-line"><span class="serif gold-txt">secure together.</span></span>
+  </h2>
+  <div class="contact-links">
+    <a class="btn magnetic" href="https://www.linkedin.com/in/mehmood-lodhi-79141a370/" target="_blank" rel="noopener"><span class="fill"></span>LinkedIn <span class="arr">↗</span></a>
+    <a class="btn magnetic" href="https://instagram.com/127.0.0.1x" target="_blank" rel="noopener"><span class="fill"></span>Instagram · @127.0.0.1x <span class="arr">↗</span></a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Mehmood Lodhi</span>
+  <span>All Systems Secure</span>
+  <span>Karachi — Worldwide</span>
+</footer>
+
+</div>
+
+<section class="final-feedback-section" style="position: relative; margin-top: 120px; padding-bottom: 60px; width: 100%; text-align: center;">
+  <h3 class="feedback-title" style="font-family: 'Share Tech Mono', monospace; color: #00ffcc; margin-bottom: 1.5rem; letter-spacing: 1px; text-shadow: 0 0 8px rgba(0,255,204,0.3);">DO YOU LIKE THIS WEB PORTFOLIO?</h3>
+  <div class="feedback-buttons feedback-controls" style="min-height: 120px;">
+    <button id="yes-btn" style="padding: 0.6rem 2rem; border: 1px solid #00ffcc; background: rgba(0,255,204,0.1); color: #fff; cursor: pointer; font-family: 'Share Tech Mono';">YES</button>
+    <button id="no-btn" style="padding: 0.6rem 2rem; border: 1px solid #ff0055; background: rgba(255,0,85,0.1); color: #fff; cursor: pointer; font-family: 'Share Tech Mono';">NO</button>
+  </div>
+  <p id="feedback-response" style="font-family: 'Share Tech Mono'; color: #fff; margin-top: 1.5rem; min-height: 24px; font-size: 1.1rem; text-shadow: 0 0 10px #00ffcc;"></p>
+  <div class="destruct-box" style="display: inline-block; margin-top: 1.5rem; padding: 1.4rem 1.8rem; border: 1px solid #ff0055; background: rgba(255,0,85,0.05); border-radius: 4px;">
+    <button id="destruct-btn" class="cyber-btn" style="color: #ff0055; border: 1px solid #ff0055; background: rgba(255,0,85,0.05); padding: 0.4rem 1.2rem; cursor: pointer; font-family: 'Share Tech Mono';">[ SELF DESTRUCT ]</button>
+  </div>
+</section>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
