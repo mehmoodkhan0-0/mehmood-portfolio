@@ -35,6 +35,9 @@ import gsap from 'gsap';
 import { skillMatrix } from '../../data.js';
 
 const SKULL_URL = '/models/skull.glb';
+/* Draco-compressed GLB; decoder is self-hosted from /public/draco (same files
+   three@0.160 bundles) so nothing is fetched from a third-party CDN. */
+useGLTF.setDecoderPath('/draco/');
 /* eye-socket anchors, measured from skull.glb in normalised stage space */
 const EYE_L = [-0.389, -0.372, 1.02];
 const EYE_R = [0.389, -0.372, 1.02];
