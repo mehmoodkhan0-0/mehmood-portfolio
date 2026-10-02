@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+*.log
+
+# audit
+.audit/
+node_modules/
+dist/
+
+# local agent tooling / scratch
+.claude/
+.freebuff/
+skills-lock.json
+RUN THIS PROMPT.txt

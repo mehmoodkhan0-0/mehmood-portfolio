@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!-- html.dark: the TwistingRibbon hero background reads this class to select
+     its dark-mode palette — the whole site is a dark theme, so it's static. -->
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mehmood Lodhi, BS Computer Science student at Air University and cybersecurity specialist based in Karachi. Top 3% worldwide on TryHackMe.">
+<meta name="theme-color" content="#050507">
+<meta property="og:title" content="Mehmood Lodhi - Cybersecurity">
+<meta property="og:description" content="BS Computer Science student at Air University, cybersecurity specialist. Top 3% worldwide on TryHackMe. Trained to think like an attacker, built to defend.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mehmood Lodhi">
+<meta property="og:locale" content="en_US">
+<!-- stops the UA painting form controls and scrollbars from a light palette
+     over an obsidian page -->
+<meta name="color-scheme" content="dark">
+<meta name="twitter:card" content="summary">
+<!-- the card previously declared a type but carried no content of its own, so
+     scrapers fell back to guessing from the document -->
+<meta name="twitter:title" content="Mehmood Lodhi - Cybersecurity">
+<meta name="twitter:description" content="BS Computer Science student at Air University, cybersecurity specialist. Top 3% worldwide on TryHackMe. Trained to think like an attacker, built to defend.">
+<!-- STILL MISSING, deliberately: og:image and rel=canonical. Both need the real
+     deployed origin, and a preview image that 404s is worse than none at all.
+     Supply the deploy URL and a 1200x630 PNG and they go in here. -->
+<title>Mehmood Lodhi® - Cybersecurity</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050507'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='27' fill='%23d8ba7c' text-anchor='middle'%3EML%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- MAISON TYPE SYSTEM v6 — every family below is licensed under the SIL
+     Open Font License (OFL): free for commercial use, embedding and resale of
+     this site/code with zero restrictions.
+       Syncopate  (SELF-HOSTED /fonts) — THE MASTHEAD. Ultra-wide machined
+                          display caps: futurist, architectural, rare in the
+                          wild. Heavy 700 cut for MEHMOOD, airy tracked 400 cut
+                          for LODHI — the two-weight lockup IS the identity.
+       Audiowide  (SELF-HOSTED /fonts) — techy uni-width accent for the hero
+                          tagline / micro-labels: reads "engineered", not typed.
+       Fraunces         — section heads / gilded italic accents.
+       Manrope          — precision-cut neo-grotesk for body/UI.
+       JetBrains Mono   — terminal / HUD mono.
+     The two masthead families are self-hosted woff2 (no third-party fetch for
+     the most visible glyphs on the page) and preloaded so the name NEVER
+     flashes a fallback during the preloader reveal. -->
+<link rel="preload" href="/fonts/syncopate-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/syncopate-400.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Caveat: the handwritten script for the boot "hello". Loaded blocking on
+     purpose (a ~1KB CSS file) because it is the very first glyph on screen. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+<!-- NOTE: Audiowide was retired. It was a second ultra-wide machined display
+     face competing with Syncopate for the same job, used in exactly one place
+     (the hero tagline), which now uses the Syncopate 400 cut instead. The
+     MAISON TYPE SYSTEM comment above still lists it; the live inventory is
+     Syncopate / Fraunces / Manrope / JetBrains Mono. -->
+<!-- NON-RENDER-BLOCKING. This used to be a bare <link rel="stylesheet">, which
+     put a third-party DNS + TLS + CSS round-trip in front of first paint. The
+     media="print" swap is the standard trick: fetched at low priority without
+     blocking render, then promoted to all once it lands. The three masthead
+     faces above are self-hosted AND preloaded, so the most visible type on the
+     page never waits on this. The query string is intentionally unchanged --
+     the Fraunces 5-axis range is fragile and not worth editing blind. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" media="print" onload="this.media='all';this.onload=null;" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+<style>
+  /* Identity section — copy-led layout (the old CIPHER hologram was retired
+     along with the luxe WebGL background; the Twisting Ribbon is the theme). */
+  #about{ position:relative; padding-bottom:4vh; }
+  #about .about-stage{ position:relative; }
+  #about .sec-label,
+  #about .about-copy{ position:relative; z-index:10; }
+  #about .about-copy{ max-width:560px; }
+
+  /* tighten the gap between Identity and Trajectory (was 16vh + 16vh) */
+  #journey{ padding-top:6vh; }
+</style>
+</head>
+<body>
+
+<!-- ================= PRELOADER ================= -->
+
+<!-- Boot sequence: a Mac waking up. "hello" writes itself in a single stroke,
+     a thin rounded boot bar fills beneath it, then a gilded seam ignites and the
+     two halves of the lid slide apart to reveal the site (preloader.js). -->
+<div id="preloader" role="status" aria-label="Loading">
+  <div class="pre-lid pre-lid--top"></div>
+  <div class="pre-lid pre-lid--bot"></div>
+  <div class="pre-seam" aria-hidden="true"></div>
+  <div class="pre-stage">
+    <svg class="pre-hello" viewBox="0 0 720 260" aria-hidden="true">
+      <defs>
+        <!-- pure white ink, the way the original reads: a whisper of warmth at
+             the edges so it never goes clinical against the black -->
+        <linearGradient id="preInk" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#f2f2f4"/>
+          <stop offset=".5" stop-color="#ffffff"/>
+          <stop offset="1" stop-color="#f4f2f0"/>
+        </linearGradient>
+      </defs>
+      <text class="pre-hello-text" x="360" y="178" text-anchor="middle">hello</text>
+    </svg>
+    <div class="pre-sub"><span>Mehmood Lodhi</span><i></i><span>Karachi · PK</span></div>
+  </div>
+  <div class="pre-boot">
+    <div class="pre-bar"><i></i></div>
+    <div class="pre-boot-meta"><span class="pre-pct">000</span><span>Initialising secure session</span></div>
+  </div>
+  <span class="pre-skip" aria-hidden="true">Click to skip</span>
+</div>
+
+<!-- ================= GLOBAL UI ================= -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"><span class="ring-txt"></span></div>
+<div id="pbar"></div>
+
+<!-- ================= FULLSCREEN MENU ================= -->
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-inner">
+    <a class="m-link serif" href="#about">About</a>
+    <a class="m-link serif" href="#journey">Journey</a>
+    <a class="m-link serif" href="#skills">Arsenal</a>
+    <a class="m-link serif" href="#matrix">Matrix</a>
+    <a class="m-link serif" href="#certs">Clearance</a>
+    <a class="m-link serif" href="#contact">Channel</a>
+  </div>
+  <div class="menu-foot">
+    <a href="https://www.linkedin.com/in/mehmood-lodhi-79141a370/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://instagram.com/127.0.0.1x" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</div>
+
+<!-- ================= NAV ================= -->
+<nav id="nav">
+  <span class="logo">ML®</span>
+  <div class="nav-links">
+    <a href="#about" data-cursor="→">About</a>
+    <a href="#journey" data-cursor="→">Journey</a>
+    <a href="#skills" data-cursor="→">Arsenal</a>
+    <a href="#matrix" data-cursor="→">Matrix</a>
+    <a href="#certs" data-cursor="→">Clearance</a>
+    <a href="#contact" data-cursor="→">Channel</a>
+  </div>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menuOverlay"><span></span><span></span></button>
+</nav>
+
+<!-- ===== TWISTING RIBBON — fixed hero backdrop (React island) =====
+     Deliberately a direct child of <body>, OUTSIDE .skew-wrap and #hero: the
+     host is position:fixed, and any transformed/filtered ancestor would demote
+     it back to absolute (making it scroll away again — the exact bug this
+     fixes). Out here nothing can contain it, so the ribbon holds dead still
+     behind the hero while the page scrolls over it. Sections are z-index:10,
+     this is z-index:0, so it stays behind everything; main.js scrubs it out as
+     the hero exits so it never bleeds into the sections below.
+     heroRibbonIsland.jsx mounts <TwistingRibbon/> here. -->
+<div id="heroRibbonRoot" class="hero-ribbon-bg" aria-hidden="true"></div>
+
+<div class="skew-wrap" id="skewWrap">
+
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <div class="hero-meta">
+    <span>Karachi · PK</span><span class="dot">●</span>
+    <span>Cybersecurity</span><span class="dot">●</span>
+    <span id="clock">00:00</span>
+  </div>
+  <div class="hero-glass">
+  <!-- cursor-tracked light pool inside the crystal (--mx/--my from main.js) -->
+  <span class="glass-glow" aria-hidden="true"></span>
+  <div class="system-hud" aria-hidden="true">
+    <div class="hud-item"><span>STATUS</span>: SECURE</div>
+    <div class="hud-divider"></div>
+    <div class="hud-item"><span>ENCRYPTION</span>: AES-256</div>
+    <div class="hud-divider"></div>
+    <div class="hud-item"><span>LATENCY</span>: <span class="hud-val" id="latencyValue">12ms</span></div>
+  </div>
+  <h1 class="display hero-name">
+    <span class="mask-line"><span class="split-chars">MEHMOOD</span></span>
+    <span class="mask-line"><span class="grad hero-surname">LODHI</span></span>
+    <span class="mask-line"><span class="hero-tag">SECURING THE DIGITAL FRONTIER</span></span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-role mask-line"><span><b>BS Computer Science @ Air University.</b> 18 years old. Top 3% worldwide on TryHackMe. Trained to think like an attacker, built to defend.</span></p>
+    <div class="hero-cta">
+      <span class="badge">⬡ Top 3% THM Worldwide</span>
+      <a class="btn magnetic" href="#skills" data-cursor=""><span class="fill"></span>View Arsenal <span class="arr">→</span></a>
+      <a class="btn gold magnetic" href="#contact" data-cursor=""><span class="fill"></span>Contact <span class="arr">→</span></a>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ================= HUD VISOR MARQUEE ================= -->
+<div class="hud-visor" aria-hidden="true">
+  <svg id="visorSvg" preserveAspectRatio="none" viewBox="0 0 1200 320">
+    <defs>
+      <!-- gold sheen — applied ONLY to the highlighted disciplines -->
+      <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#f4e7c3"/>
+        <stop offset="45%"  stop-color="#c9a962"/>
+        <stop offset="100%" stop-color="#8a6c35"/>
+      </linearGradient>
+      <!-- COSINE DIP baseline: two chained cubic Béziers (d is regenerated in JS).
+           Flat at the left edge → dips at the centre → flat at the right edge,
+           every tangent horizontal (dy/dx = 0 at all three points). -->
+      <path id="visorPath" fill="none"
+            d="M0,108 C300,108 300,212 600,212 C900,212 900,108 1200,108"/>
+    </defs>
+
+    <!-- top & bottom HUD frame lines — they curve with the text (var(--line) stroke) -->
+    <use id="visorTop"    class="visor-line" href="#visorPath"/>
+    <use id="visorBottom" class="visor-line" href="#visorPath"/>
+
+    <!-- exactly ONE textPath; the repeating string is hardcoded (no JS injection) -->
+    <text id="visorText" class="visor-text" dominant-baseline="middle">
+      <textPath href="#visorPath" startOffset="0%">
+<tspan fill="none" stroke="rgba(255,255,255,0.3)">CYBERSECURITY ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">PENETRATION TESTING</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">CTF</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ OSINT ✦ NETWORK DEFENSE ✦ INCIDENT RESPONSE ✦ WEB SECURITY ✦ LINUX ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">CRYPTOGRAPHY</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ </tspan>
+<tspan fill="none" stroke="rgba(255,255,255,0.3)">CYBERSECURITY ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">PENETRATION TESTING</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">CTF</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ OSINT ✦ NETWORK DEFENSE ✦ INCIDENT RESPONSE ✦ WEB SECURITY ✦ LINUX ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">CRYPTOGRAPHY</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ </tspan>
+<tspan fill="none" stroke="rgba(255,255,255,0.3)">CYBERSECURITY ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">PENETRATION TESTING</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">CTF</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ OSINT ✦ NETWORK DEFENSE ✦ INCIDENT RESPONSE ✦ WEB SECURITY ✦ LINUX ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">CRYPTOGRAPHY</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ </tspan>
+<tspan fill="none" stroke="rgba(255,255,255,0.3)">CYBERSECURITY ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">PENETRATION TESTING</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">CTF</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ OSINT ✦ NETWORK DEFENSE ✦ INCIDENT RESPONSE ✦ WEB SECURITY ✦ LINUX ✦ </tspan><tspan fill="url(#goldGradient)" stroke="none" font-weight="bold">CRYPTOGRAPHY</tspan><tspan fill="none" stroke="rgba(255,255,255,0.3)"> ✦ </tspan>
+        <!-- pure-SVG infinite loop (JS refines `to` to an exact phrase boundary) -->
+        <animate attributeName="startOffset" from="0%" to="-50%"
+                 dur="40s" repeatCount="indefinite"/>
+      </textPath>
+    </text>
+  </svg>
+</div>
+
+<!-- ================= 01 ABOUT ================= -->
+<section id="about">
+  <div class="about-stage">
+    <div class="sec-label"><span class="sec-num">01</span><span>Identity File</span></div>
+    <div class="about-copy">
+      <p class="about-lede">I break systems to understand them, then build them <em>unbreakable.</em></p>
+      <p class="about-body rev">After completing O-Levels and A-Levels, I committed fully to security. Now a BS Computer Science student at Air University, I've climbed into the top 3% worldwide on TryHackMe with 85+ rooms completed, earned the Google Cybersecurity Analyst Certificate, and finished TryHackMe's Advent of Cyber along with multiple THM certifications.</p>
+      <div class="chips">
+        <span class="chip">O-Levels</span><span class="chip">A-Levels</span>
+        <span class="chip">Age 18</span><span class="chip">Air University</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 JOURNEY ================= -->
+<section id="journey">
+  <div class="sec-label"><span class="sec-num">02</span><span>The Journey</span></div>
+  <h2 class="display serif sec-head">Trajectory</h2>
+  <div class="timeline">
+    <!-- Serpentine journey rail: a dim base track weaving through the alternating
+         dots with rounded elbows, covered by a gilded progress stroke as you
+         scroll, with a comet head riding the path (geometry built in main.js). -->
+    <svg class="tl-track" id="tlTrack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="tlTrackGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#e63950"/>
+          <stop offset="0.55" stop-color="#d8ba7c"/>
+          <stop offset="1" stop-color="#f0e2b6"/>
+        </linearGradient>
+      </defs>
+      <path class="tl-track-base" d=""/>
+      <path class="tl-track-fill" d="" stroke="url(#tlTrackGrad)"/>
+      <g class="tl-comet" opacity="0">
+        <circle class="tl-comet-glow" r="11"/>
+        <circle class="tl-comet-core" r="3.2"/>
+      </g>
+    </svg>
+    <div id="tlItems"></div>
+  </div>
+</section>
+
+<!-- ================= 03 SKILLS ================= -->
+<section id="skills">
+  <div class="sec-label"><span class="sec-num">03</span><span>Arsenal</span></div>
+  <h2 class="display serif sec-head">Capabilities</h2>
+  <div id="skillList"></div>
+</section>
+
+<!-- ================= 04 THE SENTINEL (Revealing-Hero 3D Data-Core) ================= -->
+<section id="matrix">
+  <div class="sec-label"><span class="sec-num">04</span><span>Skillset Matrix</span></div>
+  <h2 class="display serif sec-head">The Sentinel</h2>
+  <div class="sentinel-stage" id="sentinelStage">
+    <!-- React island: SkillMatrix3D mounts its <Canvas> here when this section
+         approaches the viewport, then freezes its frameloop while off-screen. -->
+    <div id="sentinelRoot"></div>
+    <div class="sentinel-scrim" aria-hidden="true"></div>
+    <!-- tactical frame over the stage; status flips BOOTING → ONLINE when the
+         island dispatches `sentinel:online` (main.js) -->
+    <div class="sentinel-hud" aria-hidden="true">
+      <span class="hud-corner hud-corner--tl"></span>
+      <span class="hud-corner hud-corner--tr"></span>
+      <span class="hud-corner hud-corner--bl"></span>
+      <span class="hud-corner hud-corner--br"></span>
+      <div class="hud-readout hud-readout--tl"><i></i><span data-sentinel-status>Booting</span></div>
+      <div class="hud-readout hud-readout--br">12 nodes · live fire</div>
+    </div>
+  </div>
+  <p class="matrix-hint">Move to scan · Hover a node to decode · Click anywhere to fire</p>
+</section>
+
+<!-- ================= 05 CREDENTIALS ================= -->
+<section id="certs">
+  <div class="sec-label"><span class="sec-num">05</span><span>Verified Record</span></div>
+  <div class="credentials-intro">
+    <div>
+      <p class="credentials-kicker">Credentials · rankings · field results</p>
+      <h2 class="display serif sec-head">Proof, not promises.</h2>
+    </div>
+    <p class="credentials-deck">Selected certificates and competitive milestones—each backed by a credential, scorecard or public record.</p>
+  </div>
+
+  <!-- Scroll-driven ledger. There is no carousel, no drag rail and no snapping
+       here: the records are a plain vertical <ol> that unfolds with normal page
+       scroll, each one revealed by its own ScrollTrigger (see main.js). The list
+       is injected from the data layer so the order in data.js IS the page order. -->
+  <div class="records-shell">
+    <div class="records-rail" aria-hidden="true"><span class="records-rail-fill" id="recordsRailFill"></span></div>
+    <ol class="records" id="records" aria-label="Verified records, newest credential first"></ol>
+  </div>
+</section>
+
+<!-- ================= 06 STATS ================= -->
+<section id="stats">
+  <div class="sec-label"><span class="sec-num">06</span><span>Intel Report</span></div>
+  <div class="stats-grid" id="statsPanel">
+    <div class="stat"><span class="orb"></span><div class="num">Top <b data-t="4">0</b>%</div><div class="lbl">Worldwide · TryHackMe</div></div>
+    <div class="stat"><span class="orb" style="animation-duration:8s"></span><div class="num"><b data-t="85">0</b>+</div><div class="lbl">Hands-on Rooms</div></div>
+    <div class="stat"><span class="orb" style="animation-duration:5s"></span><div class="num"><b data-t="19">0</b> / 136</div><div class="lbl">HTB CTF Challenges · Solo</div></div>
+    <div class="stat"><span class="orb" style="animation-duration:9s"></span><div class="num"><b data-t="1074">0</b></div><div class="lbl">Zero Vector · Of 6,744 Teams</div></div>
+  </div>
+</section>
+
+<!-- ================= 07 CONTACT ================= -->
+<section id="contact">
+  <div class="sec-label"><span class="sec-num">07</span><span>Open Channel</span></div>
+  <h2 class="contact-big">
+    <span class="mask-line"><span>Let's build something</span></span>
+    <span class="mask-line"><span class="serif gold-txt">secure together.</span></span>
+  </h2>
+  <div class="contact-links">
+    <a class="btn magnetic" href="https://www.linkedin.com/in/mehmood-lodhi-79141a370/" target="_blank" rel="noopener"><span class="fill"></span>LinkedIn <span class="arr">↗</span></a>
+    <a class="btn magnetic" href="https://instagram.com/127.0.0.1x" target="_blank" rel="noopener"><span class="fill"></span>Instagram · @127.0.0.1x <span class="arr">↗</span></a>
+  </div>
+</section>
+
+<!-- ================= FINAL FEEDBACK =================
+     No card, no panel, no frame: the question sits directly on the page and the
+     two buttons sit directly under it. The only box here is #feedback-arena,
+     and it is deliberately invisible — it exists purely as the bounded region
+     the runaway NO is allowed to escape into, so the button can never end up
+     over the question, over the footer, or off the edge of the layout. -->
+<section class="final-feedback-section" aria-labelledby="feedback-title">
+  <h3 class="feedback-title" id="feedback-title">Do you like this portfolio?</h3>
+
+  <div class="feedback-arena" id="feedback-arena">
+    <div class="feedback-controls">
+      <button id="yes-btn" class="fb-btn fb-yes" type="button">Yes</button>
+      <button id="no-btn" class="fb-btn fb-no" type="button">No</button>
+    </div>
+  </div>
+
+  <p id="feedback-response" role="status" aria-live="polite"></p>
+
+  <div class="destruct-box">
+    <button id="destruct-btn" class="fb-btn fb-destruct" type="button">[ Self Destruct ]</button>
+  </div>
+</section>
+
+<footer>
+  <span id="footer-year">© 2026 Mehmood Lodhi</span>
+  <span>All Systems Secure</span>
+  <span>Karachi · Worldwide</span>
+</footer>
+
+</div>
+
+<!-- ================= ANIMATED FOOTER (React island) =================
+     The closing statement: two mirrored biometric fingerprint whorls redrawn
+     as live ASCII that ignite around the cursor, with MEHMOOD / LODHI
+     unmasking character-by-character as you reach the bottom.
+     animatedFooterIsland.jsx mounts <AnimatedFooter/> here (lazily, once the
+     footer is near the viewport) and drives its reveal in controlled mode. -->
+<div id="animatedFooterRoot"></div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

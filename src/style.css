@@ -1,0 +1,1541 @@
+/* Fonts: Fraunces/Manrope/JetBrains Mono load from the Google Fonts <link> in
+   index.html; the two MASTHEAD families below are SELF-HOSTED woff2 (preloaded
+   in index.html so the name never flashes a fallback).
+   MAISON TYPE SYSTEM v6 (all SIL OFL — free for commercial use/resale):
+     --font-display  Syncopate         the masthead — ultra-wide machined
+                                       futurist caps, self-hosted. 700 for
+                                       MEHMOOD, tracked 400 for LODHI.
+     --font-tech     Audiowide         engineered uni-width accent — hero
+                                       tagline / micro-labels, self-hosted
+     --font-serif    Fraunces          gilded accents / italics / section heads
+     --font-sans     Manrope           precision neo-grotesk (body/UI)
+     --font-mono     JetBrains Mono    terminal / HUD
+
+   BLACK OPAL GROUND + GILDED VOICE — the page floor is now cool deep obsidian
+   (#050507, never pure black — ui-ux-pro-max "Modern Dark Cinema") holding the
+   vibrant Twisting Ribbon hero background (heroRibbonIsland.jsx). The gold
+   family survives ONLY as the jewellery: type accents, hairlines, marks —
+   never the ground, so the site reads couture instead of "goldy". Crimson
+   stays the counter-accent: carmine, not laser. */
+@font-face{
+  font-family:'Syncopate';
+  font-style:normal; font-weight:700; font-display:swap;
+  src:url('/fonts/syncopate-700.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Syncopate';
+  font-style:normal; font-weight:400; font-display:swap;
+  src:url('/fonts/syncopate-400.woff2') format('woff2');
+}
+:root{
+  --bg:#050507;
+  --opal-indigo:#5e6ad2;       /* iridescent accent — shared with the ribbon folds */
+  --opal-violet:#7d5bd6;
+  --opal-teal:#2fbfae;
+  --bronze:#8a6c35;            /* deep bronze — gradient anchors, shadows */
+  --champagne:#d8ba7c;         /* champagne — the live accent */
+  --gold:#c9a962;              /* classic gold — labels, borders, marks */
+  --gold-bright:#f0e2b6;       /* ivory-gold — ignition / hover states */
+  --platinum:#eef0f2;          /* cool platinum — rare contrast accent */
+  --crimson:#e63950;           /* luxe carmine — the contrast voice */
+  --crimson-deep:#8f0f22;      /* oxblood — crimson's gradient anchor */
+  --text:#f4f1e8;              /* warm ivory — softer than pure white */
+  --text2:#b3ab99;             /* warm stone grey — lifted for AA on obsidian */
+  --line:rgba(216,186,124,.16);/* gilded hairline */
+  /* ── EASING + MOTION TOKENS — one shared motion language across the site ── */
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-luxe:cubic-bezier(.76,0,.24,1);
+  --dur-fast:.25s;
+  --dur-med:.5s;
+  /* ── TYPE SCALE — fluid, harmonic; every display size derives from these ── */
+  --fs-display:clamp(3rem,9vw,8.2rem);
+  --fs-head:clamp(2.2rem,5.4vw,4.4rem);
+  --fs-lede:clamp(1.35rem,2.4vw,2rem);
+  --fs-body:1rem;
+  --fs-small:.78rem;
+  --fs-micro:.68rem;
+  --font-display:'Syncopate','Arial Black',Impact,sans-serif;
+  /* RETIRED FACE. Audiowide was a second ultra-wide machined display face
+     doing Syncopate's job, used only by .hero-tag. The token is kept and
+     repointed at the display stack rather than deleted, so any usage not
+     caught in the sweep still renders in the family instead of dropping to a
+     system sans. Live inventory is four voices: display / serif / sans / mono. */
+  --font-tech:'Syncopate','Arial Black',Impact,sans-serif;
+  --font-serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-sans:'Manrope','Segoe UI',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',Consolas,monospace;
+
+  /* ══ RADIUS SCALE ══════════════════════════════════════════════════════
+     Six steps, and nothing else. This replaced ten ad-hoc values
+     (4/8/12/19/20/22/26/50/60/999). Anything nested inside a rounded
+     surface should use border-radius:inherit rather than restating a
+     number, and anything insetting from one should use calc(). */
+  --r-xs:4px;
+  --r-sm:8px;
+  --r-md:12px;
+  --r-lg:20px;
+  --r-xl:26px;
+  --r-pill:999px;
+
+  /* ══ ELEVATION SCALE ═══════════════════════════════════════════════════
+     Each step is a LAYERED pair: a tight contact shadow plus a wide ambient
+     one. That pairing is what actually reads as depth; a single large blur
+     reads as a smudge. Components must not author raw box-shadow values.
+       e1 chips / small controls at rest
+       e2 floating chrome (nav pill, logo capsule)
+       e3 hover lift on small surfaces
+       e4 major glass panes (hero, feedback card)
+       e5 the credential plaques, the heaviest surface on the page */
+  --e1:0 2px 8px rgba(0,0,0,.28), 0 1px 2px rgba(0,0,0,.20);
+  --e2:0 4px 30px rgba(0,0,0,.10), 0 10px 34px rgba(0,0,0,.28);
+  --e3:0 12px 28px rgba(0,0,0,.34), 0 18px 50px rgba(0,0,0,.40);
+  --e4:0 18px 40px rgba(0,0,0,.34), 0 30px 80px rgba(0,0,0,.55);
+  --e5:0 26px 60px rgba(0,0,0,.45), 0 46px 100px rgba(0,0,0,.68);
+  /* inset top highlight — the second edge that makes a pane read as glass */
+  --rim-top:inset 0 1px 0 rgba(255,255,255,.14);
+  --rim-top-strong:inset 0 1px 0 rgba(255,255,255,.25);
+  /* the ONLY two coloured glows in the system */
+  --glow-accent:0 18px 50px rgba(216,186,124,.40);
+  --glow-danger:0 18px 50px rgba(230,57,80,.40);
+
+  /* ══ COLOUR ROLES ══════════════════════════════════════════════════════
+     A role layer over the primitives above. Components should reference a
+     ROLE, not a raw hue, so the palette can move without a find-and-replace.
+       accent        the champagne jewellery voice (type accents, marks)
+       accent-strong ignition / hover only
+       accent-quiet  labels, hairlines, borders
+       danger        the carmine counter-voice AND destructive affordances
+       alarm         the ONE sanctioned out-of-palette hue, confined to the
+                     "system compromised" easter egg. Do not use elsewhere.
+     The opal indigo/violet/teal trio above is DECORATIVE ONLY (it belongs to
+     the ribbon and the card sheen); it is deliberately not given a UI role. */
+  --surface-1:rgba(255,255,255,.03);
+  --surface-2:rgba(255,255,255,.05);
+  --accent:var(--champagne);
+  --accent-strong:var(--gold-bright);
+  --accent-quiet:var(--gold);
+  --danger:var(--crimson);
+  --border:var(--line);
+  --border-strong:rgba(216,186,124,.32);
+  --alarm:#ff0055;
+  --alarm-soft:#ff7d9d;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html.lenis{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto}
+html, body{
+  background-color:var(--bg);
+  color:var(--text);
+  font-family:var(--font-sans); overflow-x:hidden;
+  /* optical alignment layer — live kerning + grayscale antialiasing keep the
+     serif's strokes crisp and the grotesk's counters open over deep obsidian */
+  font-kerning:normal;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+
+/* The custom dot+ring cursor replaces the OS pointer ONLY when JS boots it.
+   html.no-os-cursor is added by cursor.js after init — without that guard,
+   a JS failure or reduced-motion path would leave the user with NO pointer
+   at all (critical UX failure on hybrid devices like iPad-pro-with-mouse). */
+html.no-os-cursor, html.no-os-cursor body{ cursor:none }
+html.no-os-cursor a, html.no-os-cursor button, html.no-os-cursor [data-cursor]{ cursor:none }
+
+/* ─── TRANSPARENT SECTIONS — the page floor is deep obsidian (--bg on body);
+   every section floats over it. The hero carries its own Twisting Ribbon
+   background layer (.hero-ribbon-bg) with a built-in vignette scrim. The ribbon
+   is a permanent fixed backdrop — it stays at full opacity for the entire page
+   lifetime; only the boot fade-up (GSAP, main.js) ever changes its opacity. ─── */
+section{ background:transparent }
+@media (max-width:768px){ body{cursor:auto} }
+::selection{background:var(--gold);color:#0a0806}
+
+/* keyboard focus — invisible to mouse users, essential with cursor:none */
+:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; border-radius:var(--r-xs) }
+.skill-row:focus-visible, .chip:focus-visible{ outline-offset:-2px }
+
+/* luxe scrollbar — thin gilded thumb on cool obsidian */
+html{ scrollbar-width:thin; scrollbar-color:#7c6335 #0a0a0e }
+::-webkit-scrollbar{ width:10px }
+::-webkit-scrollbar-track{ background:#0a0a0e }
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--bronze),var(--gold));
+  border-radius:var(--r-sm); border:2px solid #0a0a0e;
+}
+
+/* off-screen sections get their decorative CSS keyframe loops paused (class
+   toggled by an IntersectionObserver in main.js) — GSAP tweens are unaffected. */
+.anim-off *, .anim-off *::before, .anim-off *::after{
+  animation-play-state:paused !important;
+}
+
+/* ─── TWISTING RIBBON — FIXED hero backdrop ───
+   The host is a direct child of <body> (see index.html) and position:FIXED, so
+   the ribbon is locked to the viewport: it stays perfectly still behind the
+   hero while the page scrolls over it, instead of sliding away with the
+   section. It must stay free of any transformed/filtered ancestor — that would
+   demote fixed → absolute and reintroduce the scroll-away. z-index:0 parks it
+   under every section (all z-index:10). main.js scrubs --ribbon-fade 1 → 0
+   across the hero exit so it dissolves into the obsidian floor rather than
+   ghosting behind Identity.
+   NOTE: Tailwind utilities are inert in this build — this block carries the
+   real styles for the host, the component wrapper and its canvas. */
+.hero-ribbon-bg{
+  position:fixed; inset:0;
+  width:100%; height:100vh; height:100svh;
+  z-index:0; overflow:hidden; pointer-events:none;
+  /* Opacity has exactly ONE owner: GSAP (main.js) — it plays the intro fade-up
+     once the island boots. After that the ribbon stays at full opacity for the
+     entire page lifetime — it is the permanent site background. A CSS keyframe
+     here would out-rank the boot inline style in the cascade and fight it. */
+  opacity:0;
+  will-change:opacity;
+}
+.hero-ribbon-bg .hero-ribbon{
+  position:relative; width:100%; height:100%; overflow:hidden;
+}
+/* ambient aura — a soft warm bloom under the ribbon's path so the band never
+   reads as a bare filament on flat black (the "lit from within" couture look).
+   Amber/ember/gold only: the old carmine+indigo pair was what made the field
+   read as a flat pink wash. Static gradient: zero per-frame cost. */
+.hero-ribbon-bg::before{
+  content:""; position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(70% 46% at 42% 50%, rgba(255,122,40,.07), transparent 68%),
+    radial-gradient(58% 40% at 78% 62%, rgba(216,186,124,.05), transparent 70%),
+    radial-gradient(46% 34% at 14% 40%, rgba(255,72,40,.045), transparent 72%);
+  filter:blur(26px);
+}
+/* the ribbon itself. The reference render is a CLEAN band on true black — its
+   luxury comes from the spectral gradient across the twist, not from a haze.
+   So: no saturation pumping and no wide coloured drop-shadows (those bled the
+   carmine into a pink fog over the whole hero). One tight ember shadow keeps
+   the band anchored and lit without smearing the field. */
+.hero-ribbon-bg canvas{
+  position:absolute; inset:0; z-index:1;
+  display:block; width:100%; height:100%;
+  filter:drop-shadow(0 0 9px rgba(255,110,40,.16));
+}
+/* frame scrim — a soft vignette that deepens the edges so the masthead sits on
+   calm ground, plus a bottom fade to --bg so the ribbon dissolves into the
+   page floor. Centre stays clear: the band's own colour is the hero. */
+.hero-ribbon-bg::after{
+  content:""; position:absolute; inset:0; z-index:2;
+  background:
+    radial-gradient(120% 90% at 50% 46%,
+      transparent 34%, rgba(5,5,7,.30) 70%, rgba(5,5,7,.72) 100%),
+    linear-gradient(180deg,
+      rgba(5,5,7,.52) 0%, transparent 24%,
+      transparent 68%, var(--bg) 100%);
+}
+/* mobile: the drop-shadow filter is the one expensive part of this stack —
+   drop it there and lean on the static aura instead. */
+@media (max-width:768px){
+  .hero-ribbon-bg canvas{ filter:none }
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-ribbon-bg{ opacity:1 }
+}
+
+/* ── BOOT SEQUENCE (preloader.js) — a Mac waking up ──
+   The overlay itself is transparent: the two .pre-lid halves are the opaque
+   part, so when they slide apart the site is simply there underneath. */
+html.is-booting{overflow:hidden}
+#preloader{position:fixed; inset:0; z-index:99999; display:flex; align-items:center; justify-content:center;
+  background:transparent; overflow:hidden}
+/* true black behind the white word — the Apple read, not the site's obsidian */
+.pre-lid{position:absolute; left:0; width:100%; height:50.5%; background:#000; z-index:1; will-change:transform}
+.pre-lid--top{top:0}
+.pre-lid--bot{bottom:0}
+.pre-seam{position:absolute; left:4vw; right:4vw; top:50%; height:2px; margin-top:-1px; z-index:2;
+  opacity:0; transform:scaleX(0); transform-origin:center;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.7) 30%,#fff 50%,rgba(255,255,255,.7) 70%,transparent);
+  box-shadow:0 0 18px rgba(255,255,255,.7), 0 0 60px rgba(255,255,255,.25)}
+.pre-stage{position:relative; z-index:3; display:flex; flex-direction:column; align-items:center;
+  gap:clamp(4px,1.2vh,14px)}
+.pre-hello{width:clamp(280px,46vw,640px); height:auto; overflow:visible; opacity:0; visibility:hidden}
+/* handwritten single-stroke script. fill-opacity 0 + a dashed stroke that
+   GSAP unwinds = the word writing itself; the fill blooms in behind it */
+.pre-hello-text{font-family:'Caveat','Segoe Script','Bradley Hand',cursive; font-weight:500; font-size:190px;
+  fill:url(#preInk); fill-opacity:0;
+  stroke:#fff; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:1800; stroke-dashoffset:1800; paint-order:stroke fill;
+  filter:drop-shadow(0 0 18px rgba(255,255,255,.22))}
+.pre-sub{display:flex; align-items:center; gap:14px; font-family:var(--font-sans); font-weight:500; font-size:.7rem;
+  letter-spacing:.3em; text-transform:uppercase; color:rgba(255,255,255,.5); opacity:0; visibility:hidden}
+.pre-sub i{width:28px; height:1px; background:rgba(255,255,255,.18)}
+.pre-boot{position:absolute; left:50%; bottom:clamp(48px,9vh,96px); transform:translateX(-50%); z-index:3;
+  display:flex; flex-direction:column; align-items:center; gap:14px; opacity:0; visibility:hidden}
+/* the macOS boot bar: white on a dim grey track, small and unhurried */
+.pre-bar{width:clamp(180px,20vw,240px); height:4px; border-radius:var(--r-pill);
+  background:rgba(255,255,255,.14); overflow:hidden}
+.pre-bar i{display:block; height:100%; width:100%; transform:scaleX(0); transform-origin:left;
+  border-radius:inherit; background:#fff}
+.pre-boot-meta{display:flex; gap:16px; font-family:var(--font-sans); font-weight:500; font-size:.62rem; letter-spacing:.24em;
+  text-transform:uppercase; color:rgba(255,255,255,.42)}
+.pre-pct{color:rgba(255,255,255,.85); font-variant-numeric:tabular-nums}
+.pre-skip{position:absolute; right:5vw; bottom:5vh; z-index:3; font-family:var(--font-sans); font-size:.6rem;
+  letter-spacing:.26em; text-transform:uppercase; color:rgba(255,255,255,.3)}
+@media (max-width:600px){
+  .pre-hello{width:72vw}
+  .pre-boot{bottom:12vh}
+  .pre-skip{display:none}
+}
+
+/* cursor */
+.cursor-dot{position:fixed; width:6px; height:6px; border-radius:50%; background:#fff; pointer-events:none; z-index:99990; transform:translate(-50%,-50%)}
+.cursor-ring{
+  position:fixed; width:38px; height:38px; border-radius:50%;
+  border:1px solid rgba(255,255,255,.9); pointer-events:none; z-index:99989;
+  transform:translate(-50%,-50%); mix-blend-mode:difference;
+  transition:width .35s,height .35s,background .35s;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.55rem; letter-spacing:.2em; color:#fff;
+}
+.cursor-ring.active{width:80px;height:80px;background:rgba(255,255,255,.95)}
+/* Inversion lens: filled white ring over headings + name, so mix-blend-mode
+   difference inverts the typography beneath it. Single lerp loop unchanged. */
+.cursor-ring.lens{
+  width:55px; height:55px;
+  background-color:#ffffff !important;
+  border-color:transparent !important;
+}
+@media (max-width:768px){ .cursor-dot,.cursor-ring{display:none} }
+
+/* Full width, revealed with clip-path rather than an animated `width`.
+   Writing width on every scroll tick forced a layout pass per tick; clip-path
+   is paint-only on a 2px strip. It also keeps the gradient anchored to the
+   viewport, which a transform:scaleX would not (that squashes the whole
+   gradient into the filled portion). */
+#pbar{position:fixed; top:0; left:0; height:2px; width:100%;
+  clip-path:inset(0 100% 0 0);
+  background:linear-gradient(90deg,var(--crimson-deep),var(--crimson),var(--champagne),var(--gold-bright));
+  box-shadow:0 0 12px rgba(230,57,80,.5),0 0 24px rgba(216,186,124,.4); z-index:9000}
+
+/* nav */
+nav{position:fixed; top:0; left:0; width:100%; z-index:8000;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:30px 6vw; mix-blend-mode:difference;
+  /* glass props start invisible so the .shrunk state can fade them in smoothly */
+  background:rgba(10,10,22,0); border-bottom:1px solid transparent;
+  /* NO backdrop-filter on the bar: an ancestor with a backdrop-filter becomes a
+     "backdrop root", which stops the inner .nav-links pill from sampling the page
+     behind it — that flattens the frost. Keep the blur ONLY on the pill below. */
+  transition:padding .5s ease,
+             background .55s cubic-bezier(.4,0,.2,1),
+             border-color .55s ease, box-shadow .55s ease;}
+/* ── Glassmorphism pill: engaged on scroll via JS toggling .shrunk (main.js).
+   On scroll the BAR itself stays transparent — only the floating .nav-links
+   pill gets the frosted backdrop-filter, so the blur is local to the pill and
+   never bleeds onto the rest of the page. ── */
+nav.shrunk{
+  padding:18px 6vw;
+  mix-blend-mode:normal;}                 /* difference would invert the glass — disable it */
+/* ── Logo: bare mark over the hero (mix-blend difference keeps it legible),
+   morphing into its own frosted-glass capsule once the nav shrinks — section
+   labels scrolling beneath it frost out behind the glass instead of colliding
+   with the mark. Negative margins mirror the padding exactly, so the text never
+   shifts and the capsule simply blooms around it. ── */
+.logo{font-family:var(--font-display); font-weight:700; font-size:1.05rem; letter-spacing:.3em; color:#fff;
+  position:relative; z-index:2; white-space:nowrap;
+  padding:10px 16px 10px 22px; margin:-10px -16px -10px -22px;
+  border-radius:var(--r-pill); border:1px solid transparent; background:rgba(255,255,255,0);
+  -webkit-backdrop-filter:blur(0) saturate(100%); backdrop-filter:blur(0) saturate(100%);
+  transition:background .55s ease, border-color .55s ease, box-shadow .55s ease,
+             -webkit-backdrop-filter .55s ease, backdrop-filter .55s ease}
+nav.shrunk .logo{
+  background:rgba(216,186,124,.07);                  /* gilded glass capsule */
+  border-color:rgba(216,186,124,.22);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  backdrop-filter:blur(16px) saturate(160%);
+  box-shadow:var(--e2), var(--rim-top)}
+
+/* nav-links are fixed-positioned in BOTH states, so only `transform` animates
+   between them (GPU-cheap + independent of the menu's own width).
+   Default  = right-aligned at the 6vw gutter, no chrome (current look).
+   Scrolled = a dead-centre frosted-glass pill.
+   left:50% + translateX(...) lets us slide from right→centre without ever
+   measuring the element's width in JS. */
+.nav-links{
+  position:fixed; top:30px; left:50%;
+  transform:translateX(calc(50vw - 6vw - 100%));   /* right edge sits 6vw from the right */
+  display:flex; align-items:center; gap:38px;
+  padding:10px 0; border-radius:var(--r-pill);
+  border:1px solid transparent; background:transparent;
+  -webkit-backdrop-filter:blur(0) saturate(100%); backdrop-filter:blur(0) saturate(100%);
+  transition:transform .7s cubic-bezier(.76,0,.24,1),
+             top .5s cubic-bezier(.76,0,.24,1),
+             padding .5s ease, gap .5s ease,
+             background .55s ease, border-color .55s ease, box-shadow .55s ease,
+             -webkit-backdrop-filter .55s ease, backdrop-filter .55s ease;}
+nav.shrunk .nav-links{
+  top:16px;
+  transform:translateX(-50%);                       /* glide to dead-centre */
+  gap:34px; padding:13px 34px;
+  background:rgba(216,186,124,.06);                  /* low alpha so the blur shows through, not a solid bar */
+  border-color:rgba(216,186,124,.2);                /* gilded rim — the "crystal" edge */
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  backdrop-filter:blur(16px) saturate(160%);
+  /* soft floating depth + a top inset highlight so it reads as a pane of glass */
+  box-shadow:var(--e2), var(--rim-top);}
+nav a{color:#fff; text-decoration:none; font-size:.72rem; font-weight:600;
+  letter-spacing:.24em; text-transform:uppercase; position:relative; padding:6px 0;
+  transition:color .35s var(--ease-out)}
+nav a:hover{color:var(--gold-bright)}
+nav a::after{content:""; position:absolute; bottom:0; left:0; width:100%; height:1px;
+  background:var(--champagne); transform:scaleX(0); transform-origin:right;
+  transition:transform .45s var(--ease-luxe)}
+nav a:hover::after{transform:scaleX(1); transform-origin:left}
+@media (max-width:768px){ .nav-links{gap:18px} nav a{font-size:.6rem} }
+/* keep the centred pill compact + well-spaced on narrower laptops/tablets */
+@media (min-width:769px) and (max-width:1024px){
+  nav.shrunk .nav-links{gap:22px; padding:12px 24px} }
+
+/* shared */
+/* position:relative + z-index lock a clear stacking context across all sections
+   so later content never slides under an invisible layer. No transform here —
+   a transform would create a containing block that breaks ScrollTrigger pin on #ops. */
+section{position:relative; z-index:10; padding:clamp(96px,15vh,180px) 6vw}
+@media (max-width:768px){ section{padding:88px 6vw} }
+.sec-label{display:flex; align-items:center; gap:18px; margin-bottom:clamp(40px,6vh,72px);
+  font-size:var(--fs-micro); font-weight:600; letter-spacing:.38em; text-transform:uppercase; color:var(--text2)}
+.sec-label::after{content:""; flex:1; height:1px; background:var(--line)}
+/* centred variant for standalone blocks (debrief card) — the rule mirrors on both sides */
+.sec-label--center{max-width:520px; margin-left:auto; margin-right:auto}
+.sec-label--center::before{content:""; flex:1; height:1px; background:var(--line)}
+.sec-num{color:var(--gold); font-variant-numeric:tabular-nums}
+.display{font-size:var(--fs-display); font-weight:600; line-height:.98; letter-spacing:-.015em}
+/* Fraunces at display sizes: the opsz axis is the whole trick — pushed to its
+   144 ceiling it THICKENS the thin strokes, so the serif stays luminous and
+   solid instead of shimmering into hairlines. SOFT rounds the terminals
+   (the relaxed, hand-cut warmth) and WONK releases the characterful italic. */
+.serif{font-family:var(--font-serif); font-weight:500; letter-spacing:.005em;
+  font-variation-settings:'opsz' 144,'SOFT' 40,'WONK' 1}
+/* .sec-head doubles as its own reveal mask: chars rise from below the baseline
+   (split in main.js, same voice as the hero masthead). The .09em pad keeps
+   serif descenders (j y g) unclipped at rest; the calc keeps rhythm intact. */
+.sec-head{overflow:hidden; padding-bottom:.09em; margin-bottom:calc(clamp(48px,8vh,96px) - .09em);
+  font-size:var(--fs-head);
+  text-wrap:balance}
+.gold-txt{color:var(--gold)}
+.mask-line{overflow:hidden; display:block}
+.mask-line>span{display:block; transform:translateY(120%)}
+.mask-line>.split-chars{transform:none}
+.ch{display:inline-block; transform:translateY(120%)}
+/* word-level reveal token (about-lede is split into these in main.js) */
+.wd{display:inline-block}
+/* editorial rag control — balanced headlines, no orphan tails on body copy */
+.tl-body h3{text-wrap:balance}
+.hero-role, .about-body, .tl-body p, .cert-detail{text-wrap:pretty}
+/* .skew-wrap wraps EVERY section. will-change:transform here promoted the whole
+   (multi-viewport-tall) page to a permanent GPU layer for the page's entire
+   lifetime — but only #hero .hero-name actually skews, never this wrapper. GSAP
+   handles the heading's layer itself, so this is pure VRAM/compositing waste. */
+.skew-wrap{}
+
+/* burger + fullscreen menu */
+.burger{display:none; flex-direction:column; gap:6px; background:none; border:none;
+  cursor:pointer; padding:8px; z-index:8600}
+html.no-os-cursor .burger{ cursor:none }
+.burger span{display:block; width:28px; height:2px; background:#fff;
+  transition:transform .4s cubic-bezier(.76,0,.24,1)}
+.burger.open span:first-child{transform:translateY(4px) rotate(45deg)}
+.burger.open span:last-child{transform:translateY(-4px) rotate(-45deg)}
+.menu-overlay{position:fixed; inset:0; z-index:8500; background:rgba(7,6,5,.96);
+  backdrop-filter:blur(20px); display:flex; flex-direction:column;
+  justify-content:center; padding:0 8vw; gap:1vh;
+  opacity:0; visibility:hidden; transition:opacity .5s, visibility .5s}
+.menu-overlay.open{opacity:1; visibility:visible}
+.menu-inner{display:flex; flex-direction:column; gap:1vh}
+.m-link{font-size:clamp(2.2rem,7.4vw,4.6rem); color:#fff; text-decoration:none;
+  line-height:1.18; transition:color .35s var(--ease-out), letter-spacing .45s var(--ease-out), font-style .3s}
+.m-link:hover{color:var(--champagne); letter-spacing:.04em; font-style:italic}
+.menu-foot{position:absolute; bottom:5vh; left:8vw; display:flex; gap:30px}
+.menu-foot a{color:var(--text2); text-decoration:none; font-size:.72rem;
+  letter-spacing:.25em; text-transform:uppercase}
+.menu-foot a:hover{color:var(--crimson)}
+@media (max-width:768px){ .nav-links{display:none} .burger{display:flex} }
+
+/* journey timeline — SERPENTINE RAIL. The straight spine is gone: an SVG
+   track (built in main.js from the real dot positions) weaves through two
+   alternating dot lanes with rounded elbows, a gilded progress stroke covers
+   the dim base route in sync with scroll, and a comet head rides the path
+   igniting each dot as it passes. */
+.timeline{position:relative; padding-left:84px; max-width:760px}
+.tl-track{position:absolute; left:0; top:0; width:64px; height:100%;
+  overflow:visible; pointer-events:none}
+.tl-track-base{fill:none; stroke:rgba(216,186,124,.16); stroke-width:1.5}
+.tl-track-fill{fill:none; stroke-width:2.5; stroke-linecap:round;
+  filter:drop-shadow(0 0 5px rgba(230,57,80,.5)) drop-shadow(0 0 14px rgba(216,186,124,.25))}
+.tl-comet-core{fill:#fff8ea}
+.tl-comet-glow{fill:rgba(240,226,182,.16); animation:cometBreathe 2.2s ease-in-out infinite}
+@keyframes cometBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+.tl-item{position:relative; padding:clamp(28px,4.5vh,48px) 0; border-bottom:1px solid var(--line)}
+.tl-item:last-child{border-bottom:none}
+/* two dot lanes for the rail to weave between: shallow (default) and deep
+   (--indent). Dots idle as hollow gilded rings; .lit (beam arrival, main.js)
+   fills them champagne with a bloom. */
+.tl-dot{position:absolute; left:-64px; top:5.4vh; width:11px; height:11px;
+  border-radius:50%; background:#0b0a0e; border:1px solid rgba(216,186,124,.5);
+  transition:background .35s ease, box-shadow .35s ease, border-color .35s ease}
+.tl-item--indent .tl-dot{left:-36px}
+.tl-dot.lit{background:var(--champagne); border-color:transparent;
+  box-shadow:0 0 14px rgba(216,186,124,.8), 0 0 34px rgba(230,57,80,.35)}
+@media (max-width:768px){
+  .timeline{padding-left:56px}
+  .tl-dot{left:-46px}
+  .tl-item--indent .tl-dot{left:-24px}
+}
+.tl-marker{font-size:.62rem; font-weight:600; letter-spacing:.35em; text-transform:uppercase;
+  color:var(--crimson); margin-bottom:10px}
+.tl-body h3{font-family:var(--font-serif); font-size:clamp(1.5rem,3vw,2.2rem);
+  font-weight:500; margin-bottom:10px}
+.tl-body p{color:var(--text2); line-height:1.85; max-width:560px; font-size:.95rem}
+
+/* ===================== THE SENTINEL — Revealing-Hero 3D (section 04) =======
+   The R3F island (<Canvas>) mounts into #sentinelRoot and fills .sentinel-stage.
+   The scrim is a faint vignette/grid baked into the frame so the stage still
+   reads as "cloaked hardware" before the WebGL boot finishes painting. The
+   orbiting node labels + tactical HUD are Drei <Html> overlays, styled below. */
+#matrix{padding:14vh 6vw 12vh}
+/* The stage is a plain dark frame now: the living backdrop (nebula, grid floor,
+   embers) is rendered INSIDE the WebGL scene, so nothing here is a static
+   painted gradient pretending to be depth. */
+.sentinel-stage{position:relative; width:100%; height:min(74vh,680px); margin-top:40px;
+  border-radius:var(--r-xl); overflow:hidden; isolation:isolate;
+  background:#050507;
+  border:1px solid rgba(216,186,124,.16);
+  box-shadow:var(--e4), 0 0 40px rgba(230,57,80,.05);
+  touch-action:pan-y}
+#sentinelRoot{position:absolute; inset:0; z-index:1}
+#sentinelRoot canvas, .sentinel-canvas{display:block; width:100%!important; height:100%!important}
+/* soft frame vignette only (click-through) — the scanline overlay is gone */
+.sentinel-scrim{position:absolute; inset:0; pointer-events:none; z-index:2;
+  background:radial-gradient(120% 120% at 50% 50%,transparent 58%,rgba(0,0,0,.5) 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}
+/* tactical HUD frame */
+.sentinel-hud{position:absolute; inset:0; z-index:3; pointer-events:none;
+  font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.28em;
+  font-size:.55rem; color:var(--text2)}
+.sentinel-hud .hud-corner{position:absolute; width:26px; height:26px;
+  border:1px solid rgba(216,186,124,.5); opacity:.9;
+  transition:width .5s var(--ease-out), height .5s var(--ease-out)}
+.sentinel-stage:hover .hud-corner{width:34px; height:34px}
+.hud-corner--tl{top:18px; left:18px; border-right:0; border-bottom:0}
+.hud-corner--tr{top:18px; right:18px; border-left:0; border-bottom:0}
+.hud-corner--bl{bottom:18px; left:18px; border-right:0; border-top:0}
+.hud-corner--br{bottom:18px; right:18px; border-left:0; border-top:0}
+.hud-readout{position:absolute; display:flex; align-items:center; gap:10px; white-space:nowrap}
+.hud-readout--tl{top:24px; left:58px}
+.hud-readout--br{bottom:24px; right:58px}
+.hud-readout i{width:6px; height:6px; background:var(--gold);
+  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+  box-shadow:0 0 10px rgba(216,186,124,.6); animation:certPulse 1s ease-in-out infinite}
+.sentinel-stage.is-online .hud-readout i{background:var(--crimson);
+  box-shadow:0 0 10px rgba(230,57,80,.85); animation-duration:2.4s}
+.sentinel-stage.is-online [data-sentinel-status]{color:var(--champagne)}
+@media (max-width:768px){ .hud-readout--br{display:none} }
+
+/* ---- orbiting skill label (Drei <Html>) — CLEAN MINIMAL ----
+   Just the word. No dot, no stat, no HUD. Faint warm platinum when idle;
+   ignites sparkling GOLD on hover with a sharp, clean reveal. */
+.sentinel-node{position:relative; display:flex; align-items:center;
+  font-family:var(--font-mono); white-space:nowrap;
+  font-size:13px; letter-spacing:.14em; color:#ded7c6; pointer-events:auto;
+  /* the nodes are targets now: click (or Enter/Space) fires the eye beams */
+  /* The warm glow alone is decoration, not contrast: these labels orbit and a
+     third of the ring passes directly across the Sentinel, where pale text on
+     lit bone lost its letterforms entirely. The two dark shadows underneath are
+     the legibility layer — a tight contact shadow to separate the glyph edges
+     plus a wider soft one to darken the bone behind the word. Depth occlusion
+     handles the labels BEHIND the skull; this handles the ones genuinely in
+     front of it, which cannot be hidden and so have to stay readable. */
+  text-shadow:0 1px 2px rgba(0,0,0,.95), 0 0 12px rgba(0,0,0,.8),
+              0 0 6px rgba(244,231,195,.18); cursor:pointer}
+.sentinel-node:focus-visible{outline:2px solid var(--gold); outline-offset:4px;
+  border-radius:var(--r-xs)}
+html.no-os-cursor .sentinel-node{ cursor:none }
+.sentinel-node-name{text-transform:uppercase;
+  /* inline-block so the hover step-up can be a TRANSFORM. Scaling font-size
+     would reflow the label and nudge its neighbours every hover. */
+  display:inline-block;
+  transition:color .22s ease, text-shadow .22s ease, letter-spacing .22s ease,
+             filter .22s ease, transform .22s var(--ease-out)}
+
+/* ---- hover: the WORD ignites sharp, glittering GOLD ---- */
+.sentinel-node.is-hot{z-index:6}
+.sentinel-node.is-hot .sentinel-node-name{
+  color:#ffd87a; letter-spacing:.2em;
+  /* steps very slightly forward so the held word reads clearly against the
+     constellation behind it (the orbit also stops dead while hovered) */
+  transform:scale(1.14);
+  text-shadow:0 0 4px #ffcf5a, 0 0 14px rgba(255,200,80,.65),
+              0 0 30px rgba(255,170,40,.35);
+  filter:brightness(1.18)}
+
+/* ---- struck by the eye beams ----
+   Fires when the lance ARRIVES (JS delays the class by the charge + travel
+   time), not when the click happens. White-hot flash cooling back to platinum.
+   The global prefers-reduced-motion rule collapses this to ~0ms, which is the
+   intended behaviour: the beam still appears, the word just does not flare. */
+.sentinel-node.is-struck .sentinel-node-name{
+  animation:sentinelStrike .68s var(--ease-out) 1 both;
+}
+@keyframes sentinelStrike{
+  0%{ color:#ffffff; letter-spacing:.34em; filter:brightness(2.2);
+      text-shadow:0 0 6px #fff, 0 0 22px #ff6a4a, 0 0 54px #ff1024 }
+  35%{ color:#ffd0c2; letter-spacing:.24em; filter:brightness(1.5);
+       text-shadow:0 0 5px #ffb199, 0 0 20px rgba(255,60,40,.8),
+                   0 0 46px rgba(255,16,36,.5) }
+  100%{ color:#ded7c6; letter-spacing:.14em; filter:brightness(1);
+        text-shadow:0 0 6px rgba(244,231,195,.18) }
+}
+
+.matrix-hint{margin-top:22px; text-align:center; font-size:.62rem; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--text2)}
+
+@media (max-width:768px){
+  #matrix{padding:10vh 5vw}
+  .sentinel-stage{height:64vh; min-height:400px; margin-top:28px}
+  .sentinel-node{font-size:11px}
+}
+
+/* skill row description */
+.skill-row .stack{display:flex; flex-direction:column; gap:6px; overflow:hidden; min-width:0}
+.skill-row .desc{font-size:var(--fs-small); color:var(--text2); letter-spacing:.04em;
+  max-height:0; opacity:0; transition:max-height .5s var(--ease-luxe), opacity .5s,
+  transform .5s var(--ease-luxe)}
+.skill-row:hover .desc, .skill-row:focus-within .desc{max-height:44px; opacity:1; transform:translateX(24px)}
+
+/* hero */
+#hero{min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center;
+  padding-top:clamp(112px,12vh,148px); padding-bottom:clamp(56px,8vh,96px)}
+.hero-meta{display:flex; gap:clamp(12px,2vw,26px); font-size:var(--fs-micro); font-weight:600; letter-spacing:.3em;
+  text-transform:uppercase; color:var(--text2); margin-bottom:clamp(18px,2.6vh,28px); flex-wrap:wrap}
+.hero-meta .dot{color:var(--gold)}
+/* the tagline drops out of the masthead's scale entirely: a small, wide-tracked
+   champagne label — the type CONTRAST move (huge gilded serif vs tiny precise
+   caps) that makes the masthead read couture instead of merely big */
+.hero-tag{display:inline-block; margin-top:clamp(18px,2.2vw,30px);
+  /* the Syncopate 400 cut, tracked open: the exact treatment LODHI gets, so the
+     tagline reinforces the masthead lockup instead of adding a second voice */
+  font-size:clamp(.62rem, .8vw, .78rem); font-weight:400; font-family:var(--font-display);
+  color:var(--accent); letter-spacing:.46em; text-transform:uppercase}
+.hero-name{
+  filter:drop-shadow(0 6px 26px rgba(201,169,98,.28)) drop-shadow(0 2px 12px rgba(230,57,80,.16));
+}
+.hero-name .grad,
+.hero-name .split-chars .ch{
+  background:linear-gradient(270deg,#8a6c35,#e8d2a0,#faf3e0,#c9a962,#8a6c35);
+  background-size:300% 300%;
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+  /* ONE-SHOT, not a loop. This used to be `grad 8s ease infinite` on every
+     single character span, and each span carries its own background-clip:text
+     mask, so it was a per-glyph repaint every frame for the whole session on
+     the largest contentful element of the page. The keyframes end on the same
+     background-position they start from, so the RESTING look is identical: the
+     name catches the light once as it arrives, then holds. */
+  animation:grad 2.8s var(--ease-luxe) 1 both}
+/* GHOST-GLYPH FIX — .split-chars is a PLAIN carrier, never a painted surface.
+   It used to carry the same background-clip:text + transparent fill as its own
+   .ch children, so the browser held TWO nested text-clip masks over one word.
+   Under the scroll-velocity skewY (a compositor transform re-rastering the
+   masthead every frame) the parent's mask went stale and its gradient box
+   leaked as the boxy "ghost M" over the first letter. One mask per glyph now:
+   the children paint the gold, the parent paints nothing at all. */
+.hero-name .split-chars{
+  background:none; -webkit-text-fill-color:currentColor; animation:none;
+}
+
+/* ─── MEHMOOD + LODHI: the SYNCOPATE lockup — machined, ultra-wide futurist
+   caps (self-hosted, nothing like a default system stack). Two cuts of ONE
+   family carry the whole identity:
+     MEHMOOD — heavy 700, the engineered monolith filled with liquid gold
+     LODHI   — airy 400 tracked WAY out beneath it, platinum-quiet
+   The drama IS the weight/tracking contrast; no italics, no serifs — pure
+   architecture. Syncopate runs extremely wide, so sizes drop vs the old serif
+   while occupying MORE horizontal presence. ─── */
+/* left-aligned editorial stack: MEHMOOD, LODHI and subtitle share one crisp left axis */
+.hero-name{ text-align:left; }
+.hero-name .mask-line{ text-align:left; }
+
+/* shared voice: identical family for both words */
+.hero-name .split-chars,
+.hero-name .grad{
+  font-family:var(--font-display) !important;
+  line-height:.9;
+  /* optical left alignment: Syncopate's generous side bearings push the M/L
+     stems inboard — this nudge sets the GLYPH edge on the copy's left axis */
+  margin-left:-.04em;
+  /* lock words to a single line so they never break mid-word */
+  white-space:nowrap;
+  display:inline-block;
+}
+/* MEHMOOD — primary name: the heavy machined monolith, dominant */
+.hero-name .split-chars,
+.hero-name .split-chars .ch{
+  font-weight:700 !important;
+  text-transform:uppercase;
+  letter-spacing:-.045em; /* display scale needs a dense, engineered silhouette */
+}
+.hero-name .split-chars .ch{
+  font-family:var(--font-display) !important;
+  font-size:inherit;
+}
+.hero-name .split-chars{
+  font-size:clamp(3.1rem, 8.25vw, 8.35rem) !important;
+}
+/* LODHI — the surname answers in the airy 400 cut, tracked wide open below:
+   quieter, engraved, the "machined nameplate" line under the monolith. */
+.hero-name .grad{
+  font-weight:400 !important;
+  text-transform:uppercase;
+  letter-spacing:.48em;
+  /* the huge tracking adds a phantom trailing gap after the final I —
+     margin-right swallows it so both words end on the same right rhythm */
+  margin-right:-.48em;
+  font-size:clamp(1.65rem, 4.15vw, 4.2rem) !important;
+  margin-top:.28em;
+}
+@keyframes grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero-bottom{display:grid; grid-template-columns:minmax(260px,1fr) auto; justify-content:space-between; align-items:end;
+  margin-top:clamp(30px,4.5vh,50px); gap:clamp(24px,4vw,64px)}
+.hero-role{max-width:520px; color:var(--text2); font-size:clamp(.94rem,1.05vw,1.08rem); line-height:1.7}
+.hero-role b{color:var(--gold-bright); font-weight:750; letter-spacing:.01em}
+.hero-cta{display:grid; grid-template-columns:auto auto; gap:12px; align-items:center; justify-items:stretch}
+.hero-cta .badge{grid-column:1 / -1; justify-content:center}
+.hero-cta .btn{justify-content:center}
+
+/* buttons — one shared motion language, tactile press state, focus parity */
+.btn{position:relative; display:inline-flex; align-items:center; gap:14px;
+  padding:19px 40px; border-radius:var(--r-pill); border:1px solid rgba(244,231,195,.2);
+  /* No backdrop-filter. Every button was its own backdrop root, and at this
+     element size the blur is imperceptible; a slightly higher fill alpha holds
+     the same look. Glass is kept where it is deliberate and actually reads. */
+  background:rgba(244,231,195,.05);
+  color:#fff; font-size:var(--fs-small); font-weight:600; text-decoration:none;
+  letter-spacing:.22em; text-transform:uppercase; cursor:pointer; overflow:hidden;
+  transition:border-color .4s var(--ease-out), box-shadow .4s var(--ease-out),
+             color .4s, transform .3s var(--ease-out)}
+.btn:active{transform:scale(.965)}
+.btn .fill{position:absolute; inset:0; border-radius:inherit; z-index:-1;
+  background:linear-gradient(135deg,var(--crimson-deep),var(--crimson));
+  transform:translateY(101%); transition:transform .5s var(--ease-luxe)}
+.btn:hover{border-color:transparent;
+  box-shadow:var(--glow-danger)}
+.btn:hover .fill{transform:translateY(0)}
+.btn .arr{transition:transform .4s var(--ease-out)}
+.btn:hover .arr{transform:translateX(6px)}
+.btn.gold{border-color:rgba(216,186,124,.45)}
+.btn.gold .fill{background:linear-gradient(135deg,#6d5527,var(--gold))}
+.btn.gold:hover{color:#14100a; box-shadow:var(--glow-accent)}
+@media (max-width:768px){ .btn{cursor:pointer} }
+
+.badge{display:inline-flex; gap:10px; align-items:center;
+  padding:12px 24px; border-radius:var(--r-pill); font-size:.7rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--champagne);
+  border:1px solid rgba(216,186,124,.32); background:rgba(216,186,124,.05);
+  /* static mid-glow — reads live at a glance and paints exactly once */
+  box-shadow:0 0 18px rgba(216,186,124,.18)}
+
+/* HUD visor marquee — 100% transparent container; the curve gets room to breathe */
+.hud-visor{
+  position:relative; width:100%;
+  height:clamp(250px,30vw,400px);
+  overflow:hidden;
+  background:transparent; border:none; box-shadow:none;
+}
+.hud-visor svg{display:block; width:100%; height:100%}
+/* curved frame lines (top + bottom) — your --line colour */
+.hud-visor .visor-line{
+  fill:none; stroke:var(--line); stroke-width:1;
+  vector-effect:non-scaling-stroke;
+}
+/* scrolling text — SAME font-family / font-size / letter-spacing as the old marquee */
+.hud-visor .visor-text{
+  font-family:var(--font-sans);
+  font-size:clamp(1.4rem,3.4vw,2.6rem);
+  font-weight:700; letter-spacing:-.02em;
+  stroke-width:1;            /* hollow-outline weight (gold tspans override to stroke:none) */
+}
+
+/* about */
+.about-lede{font-size:var(--fs-lede); line-height:1.5; font-weight:300;
+  letter-spacing:.002em; text-wrap:pretty}
+.about-lede em{font-family:var(--font-serif); font-style:italic; font-weight:500; color:var(--champagne); font-size:1.18em}
+.about-body{margin-top:clamp(24px,4vh,44px); color:var(--text2); line-height:2; max-width:560px}
+.chips{display:flex; gap:14px; flex-wrap:wrap; margin-top:clamp(28px,5vh,52px)}
+.chip{padding:12px 26px; border-radius:var(--r-pill); font-size:.72rem; font-weight:600; letter-spacing:.15em;
+  text-transform:uppercase; border:1px solid var(--line);
+  /* same as .btn: a backdrop root per chip bought nothing visible */
+  background:rgba(216,186,124,.05);
+  transition:border-color .4s var(--ease-out), transform .4s var(--ease-out),
+             color .4s, box-shadow .4s var(--ease-out)}
+/* the bespoke crimson-tinted hover glow is gone: a chip does not get to invent
+   its own elevation, it uses the shared step for this height */
+.chip:hover{border-color:var(--danger); color:var(--accent-strong); transform:translateY(-6px);
+  box-shadow:var(--e3)}
+.chip:nth-child(odd){animation:floaty 5s ease-in-out infinite}
+.chip:nth-child(even){animation:floaty 6.5s ease-in-out infinite reverse}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -8px}}
+
+/* skills */
+.skill-row{position:relative; display:grid; grid-template-columns:80px 1fr auto;
+  align-items:center; gap:clamp(16px,2.4vw,30px); padding:clamp(26px,4.2vh,44px) 2vw;
+  border-bottom:1px solid var(--line); overflow:hidden}
+.skill-row:first-of-type{border-top:1px solid var(--line)}
+.skill-row .idx{font-size:.75rem; color:var(--text2); font-variant-numeric:tabular-nums; letter-spacing:.2em}
+.skill-row .name{font-size:clamp(1.5rem,3.6vw,3rem); font-weight:600; letter-spacing:-.02em;
+  transition:transform .5s var(--ease-luxe), color .4s}
+.skill-row .pct{font-size:var(--fs-small); color:var(--text2); letter-spacing:.2em;
+  font-variant-numeric:tabular-nums}
+.skill-row .wipe{position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(90deg,rgba(143,15,34,.18),rgba(230,57,80,.08));
+  transform:scaleY(0); transform-origin:bottom; transition:transform .5s var(--ease-luxe)}
+.skill-row .bar{position:absolute; bottom:0; left:0; height:2px; width:0%;
+  background:linear-gradient(90deg,var(--crimson),var(--gold-bright));
+  box-shadow:0 0 12px rgba(230,57,80,.6); transition:width .8s var(--ease-luxe)}
+.skill-row:hover .wipe, .skill-row:focus-within .wipe{transform:scaleY(1)}
+.skill-row:hover .name, .skill-row:focus-within .name{transform:translateX(24px); color:var(--gold-bright)}
+.skill-row:hover .bar, .skill-row:focus-within .bar{width:var(--lv)}
+@media (max-width:640px){
+  /* phone: collapse the index column so the name owns the row */
+  .skill-row{grid-template-columns:1fr auto; padding:24px 0}
+  .skill-row .idx{display:none}
+  .skill-row:hover .name{transform:translateX(10px)}
+}
+/* ═══════════ VERIFIED RECORD — SCROLL-DRIVEN LEDGER (section 05) ═══════════
+   Third rebuild. The horizontal drag deck is gone: no scroll-snap rail, no
+   grab cursor, no dimmed is-near/is-far depth ladder, no dots/arrows/progress
+   chrome. Records are a vertical <ol> in normal page flow that unfolds as you
+   scroll, and they ALTERNATE sides so six records read as an editorial spread
+   instead of six copies of one template.
+
+   The panel itself keeps the cut-steel language from the deck era — clipped
+   corners, a crimson clearance rail on the edge facing its image, corner
+   brackets, JetBrains Mono metadata — so section 05 still reads as the same
+   machine as section 04. What changed underneath it is the whole interaction. */
+
+/* ── intro ── */
+.credentials-intro{display:flex; align-items:end; justify-content:space-between; gap:40px;
+  margin-bottom:clamp(30px,6vh,64px)}
+.credentials-intro .sec-head{margin:8px 0 0}
+.credentials-kicker{font-family:var(--font-mono); color:var(--crimson); font-size:.62rem;
+  letter-spacing:.22em; text-transform:uppercase}
+.credentials-deck{max-width:470px; color:var(--text2); font-size:.88rem; line-height:1.75;
+  padding-bottom:8px}
+
+/* screen-reader-only utility */
+.visually-hidden{position:absolute !important; width:1px; height:1px; margin:-1px;
+  padding:0; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%);
+  white-space:nowrap; border:0}
+
+/* ── the ledger + its scroll-progress rail ──
+   The rail replaced the dots/count/arrow cluster. It cannot be clicked and it
+   cannot be dragged: it is a pure readout of how far scroll has carried you
+   through the section, which is the only navigation this section now has. */
+.records-shell{position:relative; max-width:1280px; margin:0 auto;
+  padding-left:clamp(0px,3.2vw,54px)}
+.records-rail{position:absolute; left:0; top:8px; bottom:8px; width:1px;
+  background:rgba(216,186,124,.13); overflow:hidden}
+.records-rail-fill{position:absolute; inset:0; transform:scaleY(0); transform-origin:top;
+  background:linear-gradient(180deg,var(--champagne) 0%,var(--gold) 42%,var(--crimson) 100%);
+  box-shadow:0 0 12px rgba(216,186,124,.4)}
+
+.records{list-style:none; margin:0; padding:0;
+  display:flex; flex-direction:column; gap:clamp(76px,13vh,164px)}
+.cert{position:relative}
+
+/* ── the two-column spread; every odd record mirrors it ── */
+.cert-showcase{position:relative; display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(300px,.86fr);
+  align-items:center; width:100%}
+.cert-media{grid-area:1 / 1 / 2 / 2}
+.cert-panel{grid-area:1 / 2 / 2 / 3; z-index:4; margin-left:-58px}
+.cert--flip .cert-showcase{grid-template-columns:minmax(300px,.86fr) minmax(0,1.5fr)}
+.cert--flip .cert-media{grid-area:1 / 2 / 2 / 3}
+.cert--flip .cert-panel{grid-area:1 / 1 / 2 / 3; grid-column:1; margin-left:0; margin-right:-58px}
+
+/* ══ THE CERTIFICATE PLATE ══
+   --ratio is written per record from the image's INTRINSIC pixel dimensions
+   (see main.js), so the frame is cut to the certificate's own proportions.
+   That is the actual fix for the soft look: there is no letterbox and no
+   ratio-mismatched fit, the bitmap maps 1:1 into a box it was never stretched
+   to fill, and the img carries real width/height attributes so the browser
+   reserves that exact box before decode. The old frame forced every scan into
+   one 1.42 box and then scaled the ACTIVE one by 1.012 — a non-integer
+   transform, which resamples the whole image and is what made crisp scans look
+   soft. Nothing scales the image at rest any more.
+
+   The caption sits OUTSIDE the plate. Pass one had it overlaid on the scan and
+   it lost every time: white-on-white over the Coursera fine print, and the
+   ghost index number simply vanished on a white certificate. These are real
+   documents with their own margins and their own type — laying our labels over
+   them was always going to fight. Out here it reads as a ledger line instead. */
+.cert-media{position:relative; margin:0; width:100%;
+  display:flex; flex-direction:column; gap:13px}
+.cert-plate{position:relative; width:100%; overflow:hidden;
+  aspect-ratio:var(--ratio,1.44);
+  clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);
+  background:#0b0a0e; box-shadow:var(--e4)}
+.cert--flip .cert-plate{
+  clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
+.cert-media-inner{position:absolute; inset:0; z-index:1; transform-origin:center}
+.cert-media img{display:block; width:100%; height:100%; object-fit:contain;
+  background:#0e0d12}
+.cert-media-frame{position:absolute; inset:0; z-index:3; pointer-events:none;
+  border:1px solid rgba(244,231,195,.18); clip-path:inherit}
+/* a vignette, not a dimmer. Three of these scans are near-white documents and
+   a hard-edged white slab on a #050507 page reads as a hole punched in the
+   layout; pulling the corners down seats the plate in the dark without
+   touching the middle, where the credential actually is. */
+.cert-media-shade{position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:radial-gradient(125% 105% at 50% 45%,
+    transparent 52%, rgba(5,4,6,.30) 82%, rgba(5,4,6,.62) 100%)}
+
+/* the reveal curtain — a scaled panel, NOT an animated clip-path, so the whole
+   un-veil is a compositor transform and cannot jank. A gilded edge rides its
+   leading line so the plate reads as being scanned open. */
+.cert-media-veil{position:absolute; inset:-1px; z-index:5; pointer-events:none;
+  background:var(--bg); transform:scaleY(0); transform-origin:bottom}
+.cert-media-veil::after{content:""; position:absolute; left:0; right:0; top:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--champagne),transparent)}
+
+/* ── the ledger line under each plate ── */
+.cert-media figcaption{display:flex; align-items:center; justify-content:space-between;
+  gap:20px; padding-top:11px; border-top:1px solid var(--line);
+  font-family:var(--font-mono); text-transform:uppercase}
+.cert--flip .cert-media figcaption{flex-direction:row-reverse}
+.cert-media-kind{font-size:.55rem; letter-spacing:.26em; color:var(--text2)}
+.cert-media-index{font-size:.72rem; letter-spacing:.14em; color:var(--champagne);
+  font-variant-numeric:tabular-nums; opacity:.75}
+
+/* the one record with no scan behind it — a ranking, not a certificate. Retuned
+   off the old fire-engine red onto the champagne voice the rest of the page speaks. */
+.cert-visual-mark{position:absolute; inset:0; display:grid; place-content:center; text-align:center;
+  background:radial-gradient(circle at 50% 42%,rgba(216,186,124,.13),transparent 58%),
+    linear-gradient(145deg,#15131a,#070609)}
+.cert-visual-mark span{font-family:var(--font-serif); font-weight:600;
+  font-variation-settings:'opsz' 144,'SOFT' 40,'WONK' 1;
+  font-size:clamp(5rem,13vw,10rem); line-height:.82; letter-spacing:-.03em;
+  color:var(--champagne); text-shadow:0 0 46px rgba(216,186,124,.26)}
+.cert-visual-mark small{margin-top:24px; color:var(--text2); font-family:var(--font-mono);
+  font-size:.58rem; letter-spacing:.34em; text-transform:uppercase}
+
+/* ══ THE DOSSIER PANEL ══
+   .cert-panel is the REVEAL target (GSAP writes transform/opacity to it) and
+   .cert-card is the TILT target (CSS custom properties). They are deliberately
+   two elements: one transform per owner means the hover tilt and the scroll
+   reveal can never overwrite each other's matrix. */
+.cert-panel{position:relative}
+.cert-card{position:relative; width:100%; height:100%;
+  --cut:20px;
+  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),
+                    calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
+  background:linear-gradient(150deg,
+    rgba(216,186,124,.34) 0%, rgba(216,186,124,.10) 42%,
+    rgba(230,57,80,.20) 100%);
+  box-shadow:var(--e5);
+  /* transform-only tilt: compositor work, never layout */
+  transform:perspective(1000px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));
+  transition:transform .55s var(--ease-out), background .45s ease}
+.cert--flip .cert-card{
+  clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,
+                    var(--cut) 100%,0 calc(100% - var(--cut)))}
+/* the dark fill, inset by 1px — this gap IS the frame */
+.cert-card::before{content:""; position:absolute; inset:1px; z-index:0;
+  clip-path:inherit;
+  background:
+    radial-gradient(120% 80% at 12% -10%, rgba(238,240,242,.05), transparent 58%),
+    radial-gradient(90% 70% at 92% 106%, rgba(143,15,34,.16), transparent 62%),
+    linear-gradient(158deg,#131117 0%,#0a090c 52%,#050406 100%)}
+/* engraved micro-texture — one static repeating gradient, print-finish read */
+.cert-card::after{content:""; position:absolute; inset:1px; z-index:1;
+  clip-path:inherit; pointer-events:none;
+  background:repeating-linear-gradient(0deg,
+    transparent 0 3px, rgba(255,255,255,.012) 3px 4px)}
+.cert-card.is-hot{
+  will-change:transform;
+  transition:transform .12s ease-out, background .45s ease}
+/* every panel is fully lit now, so hover is no longer gated on a "centred" card */
+.cert-card:hover, .cert-card.is-hot{
+  background:linear-gradient(150deg,
+    rgba(244,231,195,.6) 0%, rgba(216,186,124,.2) 42%,
+    rgba(230,57,80,.34) 100%)}
+
+/* ── crimson clearance rail, always on the edge that faces the plate ── */
+.cert-rail{position:absolute; left:1px; top:var(--cut); bottom:1px; width:2px; z-index:2;
+  background:linear-gradient(180deg,
+    transparent, var(--crimson) 18%, #ff8aa0 50%, var(--crimson) 82%, transparent);
+  opacity:.55; transition:opacity .45s ease}
+.cert--flip .cert-rail{left:auto; right:1px}
+.cert.is-live .cert-rail{opacity:1; box-shadow:0 0 14px rgba(230,57,80,.5)}
+
+/* ── the scan pass — only runs while the record is actually on screen ──
+   Halved from the deck era. When exactly one card was ever "active" a hot
+   50%-white line read as a spotlight; with all six panels lit it read as a tear
+   ripping across the body copy six times over. Wider falloff, lower peak: a
+   sweep you notice at the edge of vision, not a strobe over the text. */
+.cert-scan{position:absolute; inset:1px; z-index:2; pointer-events:none;
+  clip-path:inherit; opacity:0;
+  background:linear-gradient(180deg, transparent 38%,
+    rgba(244,231,195,.05) 46%, rgba(255,255,255,.24) 50%,
+    rgba(244,231,195,.05) 54%, transparent 62%)}
+.cert.is-live .cert-scan{opacity:1; animation:certScan 6.4s linear infinite}
+@keyframes certScan{0%{transform:translateY(-100%)}
+  58%,100%{transform:translateY(100%)}}
+
+/* ── corner brackets — mirrored with the plate on flipped records ── */
+.cert-corner{position:absolute; width:22px; height:22px; z-index:3; pointer-events:none;
+  border:1px solid rgba(244,231,195,.5); opacity:.85}
+.cert-corner--tl{top:9px; right:9px; border-left:0; border-bottom:0}
+.cert-corner--br{bottom:9px; left:9px; border-right:0; border-top:0}
+.cert--flip .cert-corner--tl{right:auto; left:9px;
+  border-left:1px solid rgba(244,231,195,.5); border-right:0; border-bottom:0}
+.cert--flip .cert-corner--br{left:auto; right:9px;
+  border-right:1px solid rgba(244,231,195,.5); border-left:0; border-top:0}
+
+/* ── panel layout ── */
+.cert-card-body{position:relative; z-index:4; height:auto; min-height:400px;
+  padding:30px 32px 26px 36px; display:flex; flex-direction:column}
+.cert-top{display:flex; justify-content:space-between; align-items:center;
+  padding-bottom:16px; border-bottom:1px solid rgba(238,240,242,.07)}
+.cert-classification{font-family:var(--font-mono); font-size:.56rem; font-weight:600;
+  letter-spacing:.3em; text-transform:uppercase; color:var(--crimson)}
+.cert-index{font-family:var(--font-mono); font-size:.56rem; letter-spacing:.28em;
+  color:var(--text2)}
+.cert-heading{margin-top:28px}
+
+/* ══ THE IDENTITY TAG ══
+   This replaced the initials-in-a-circle seal ("G·", "HT"), which was the one
+   piece of this section that read as stock-template filler rather than a
+   decision. It is now a bracketed monospace issuer tag in the same
+   hacker-terminal voice as .cert-classification and the HUD — plus ONE diamond
+   of the issuer's own brand colour as the only chromatic identity cue. No
+   traced logos: a hand-approximated wordmark at 44px reads worse than no mark
+   at all, and the type is what this site actually speaks in. */
+.cert-issuer{display:inline-flex; align-items:center; gap:11px; margin-bottom:14px;
+  font-family:var(--font-mono); font-size:.55rem; font-weight:600;
+  letter-spacing:.3em; text-transform:uppercase; color:var(--platinum)}
+.cert-issuer-dot{flex:none; width:7px; height:7px;
+  background:var(--issuer,var(--champagne));
+  clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+  box-shadow:0 0 11px color-mix(in srgb, var(--issuer,#d8ba7c) 65%, transparent)}
+.cert-issuer-tag i{font-style:normal; color:var(--champagne); opacity:.5; padding:0 .45em}
+
+.cert-title{font-family:var(--font-sans); font-weight:500;
+  font-size:clamp(1.32rem,2vw,1.66rem); line-height:1.18;
+  letter-spacing:-.01em; color:#fff; text-wrap:balance}
+.cert-detail{margin-top:18px; color:var(--text2); font-size:.79rem; line-height:1.7}
+.cert-meta{display:grid; gap:9px; margin:22px 0 0; padding:16px 0;
+  border-top:1px solid rgba(238,240,242,.07); border-bottom:1px solid rgba(238,240,242,.07)}
+.cert-meta div{display:grid; grid-template-columns:72px 1fr; gap:12px}
+.cert-meta dt{font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.18em;
+  color:var(--text2); font-size:.5rem}
+.cert-meta dd{margin:0; color:var(--platinum); font-family:var(--font-mono); font-size:.58rem;
+  overflow-wrap:anywhere}
+.cert-foot{margin-top:auto; display:flex; justify-content:space-between; align-items:center;
+  padding-top:18px; gap:14px}
+.cert-status{display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--font-mono); font-size:.55rem; font-weight:600;
+  letter-spacing:.26em; text-transform:uppercase; color:var(--platinum)}
+.cert-status i{width:5px; height:5px; background:var(--crimson);
+  box-shadow:0 0 10px rgba(230,57,80,.95); animation:certPulse 2.4s ease-in-out infinite}
+@keyframes certPulse{0%,100%{opacity:.4}50%{opacity:1}}
+.cert-action{color:var(--champagne); font-family:var(--font-mono); font-size:.54rem;
+  letter-spacing:.12em; text-transform:uppercase; text-decoration:none; text-align:right;
+  transition:color .3s ease}
+.cert-action:hover{color:#fff}
+.cert-action--static{color:var(--text2)}
+
+/* ── cursor optics — both anchored to --gx/--gy from the tilt handler ── */
+.cert-sheen{position:absolute; inset:1px; z-index:5; pointer-events:none;
+  clip-path:inherit; mix-blend-mode:screen; opacity:0; transition:opacity .45s ease;
+  background:radial-gradient(300px circle at var(--gx,50%) var(--gy,50%),
+    rgba(230,57,80,.16), rgba(216,186,124,.10) 38%, transparent 70%)}
+.cert-card:hover .cert-sheen, .cert-card.is-hot .cert-sheen{opacity:1}
+.cert-glare{position:absolute; inset:1px; z-index:6; pointer-events:none;
+  clip-path:inherit; opacity:0; transition:opacity .35s ease; mix-blend-mode:screen;
+  background:radial-gradient(circle 200px at var(--gx,50%) var(--gy,50%),
+    rgba(255,255,255,.16), rgba(255,255,255,.03) 45%, transparent 70%)}
+.cert-card.is-hot .cert-glare{opacity:1}
+
+/* ══ ARMED STATE ══
+   The ONLY place a record is ever hidden. main.js adds .cert--armed at render
+   time and only when prefers-reduced-motion is off, then GSAP animates each
+   layer TO rest and drops the class on completion. Because the rest state is
+   the default and the hidden state is the opt-in, a ScrollTrigger refresh, a
+   JS failure or reduced motion can never leave a record invisible. */
+.cert--armed .cert-media-veil{transform:scaleY(1); will-change:transform}
+.cert--armed .cert-media-inner{transform:scale(1.09); will-change:transform}
+.cert--armed .cert-media figcaption{opacity:0; transform:translateY(14px)}
+.cert--armed .cert-panel{opacity:0; transform:translateY(56px);
+  will-change:transform,opacity}
+.cert--armed .cert-row{opacity:0; transform:translateY(20px)}
+
+/* ── stacked layout: the plate on top, the dossier tucked under its lower edge ── */
+@media (max-width:980px){
+  .records-shell{padding-left:0}
+  .records-rail{display:none}
+  .records{gap:clamp(58px,9vh,104px)}
+  .cert-showcase, .cert--flip .cert-showcase{grid-template-columns:1fr}
+  .cert-media, .cert--flip .cert-media{grid-area:1 / 1 / 2 / 2}
+  .cert-panel, .cert--flip .cert-panel{grid-area:2 / 1 / 3 / 2;
+    margin:-54px 20px 0; grid-column:1}
+  .cert-card-body{min-height:0}
+  /* the ledger line moves ABOVE the plate here. Side by side the panel clears
+     the caption; stacked, the panel's tuck-under margin landed straight on it
+     and sliced the label in half. Overhead it stays legible and the panel still
+     gets to overlap the plate, which is the whole point of the negative margin. */
+  .cert-media figcaption{order:-1; padding:0 0 10px;
+    border-top:0; border-bottom:1px solid var(--line)}
+  .cert--flip .cert-media figcaption{flex-direction:row}
+}
+@media (max-width:560px){
+  .cert-panel, .cert--flip .cert-panel{margin:-28px 10px 0}
+  .cert-card-body{padding:24px 21px 22px 25px}
+  .cert-heading{margin-top:22px}
+  .cert-title{font-size:1.2rem}
+  .cert-detail{font-size:.75rem}
+  .cert-meta div{grid-template-columns:62px 1fr}
+  .cert-media figcaption{padding-left:16px; padding-right:16px}
+  .cert-status{font-size:.48rem; letter-spacing:.16em}
+  .cert-action{font-size:.48rem}
+  .cert-issuer{letter-spacing:.22em}
+}
+
+/* stats */
+.stats-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  border-top:1px solid var(--line); border-left:1px solid var(--line);
+  background:rgba(6,5,4,.35); backdrop-filter:blur(6px)}
+.stat{padding:clamp(40px,7vh,72px) clamp(20px,3vw,40px);
+  border-right:1px solid var(--line); border-bottom:1px solid var(--line);
+  position:relative; overflow:hidden; transition:background .5s var(--ease-out)}
+.stat:hover{background:rgba(216,186,124,.05)}
+.stat .num{font-size:clamp(2.6rem,5.4vw,4.8rem); font-weight:200; line-height:1; font-variant-numeric:tabular-nums}
+.stat .num b{color:var(--champagne); font-weight:200}
+.stat .lbl{margin-top:18px; font-size:var(--fs-micro); letter-spacing:.25em; text-transform:uppercase; color:var(--text2)}
+.stat .orb{position:absolute; top:24px; right:24px; width:8px; height:8px; border-radius:50%;
+  background:var(--crimson); box-shadow:0 0 14px var(--crimson); animation:orbit 6s linear infinite}
+@keyframes orbit{from{transform:rotate(0) translateX(20px)}to{transform:rotate(360deg) translateX(20px)}}
+
+/* contact */
+#contact{min-height:90vh; min-height:90svh; display:flex; flex-direction:column; justify-content:center}
+.contact-big{font-size:clamp(2.4rem,7.4vw,6.4rem); font-weight:600; letter-spacing:-.015em; line-height:1.06}
+/* the closing serif line answers in gilded italic — the maison signature */
+.contact-big .serif{font-style:italic; font-weight:500}
+/* each masked line gets descender room (the serif's g/y tails exceed the 1.05
+   line box); the negative margin gives the padding back to the rhythm. The
+   reveal still hides fully: spans start at translateY(120%) > 100% + .14em. */
+.contact-big .mask-line{padding-bottom:.14em; margin-bottom:-.14em}
+.contact-links{display:flex; gap:clamp(14px,2vw,24px); margin-top:clamp(44px,8vh,88px); flex-wrap:wrap}
+/* SCOPED to .skew-wrap on purpose: the AnimatedFooter island also renders a
+   <footer>, and a bare element selector would hand it this bar's flex layout,
+   padding and uppercase micro-type. This rule belongs to the legal strip only. */
+.skew-wrap footer{display:flex; justify-content:space-between; align-items:center;
+  padding:36px 6vw; flex-wrap:wrap; gap:14px 28px;
+  border-top:1px solid var(--line); color:var(--text2); font-size:var(--fs-micro);
+  letter-spacing:.25em; text-transform:uppercase}
+
+/* ─── System Intel HUD (hero, below nav) ─── */
+.system-hud{
+  display:flex; align-items:center; gap:15px;
+  width:max-content; max-width:100%;
+  margin-bottom:clamp(18px,3vw,30px);
+  background:rgba(244,231,195,.03);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  padding:8px 16px; border-radius:var(--r-xs);
+  border:.5px solid rgba(216,186,124,.16);
+  font-family:var(--font-mono);
+  font-size:10px; letter-spacing:1px;
+  color:rgba(244,241,232,.6); text-transform:uppercase;
+  pointer-events:none; /* cursor never catches on it */
+  /* clip-path scan reveal start state (animated open in heroReveal) */
+  clip-path:inset(0 100% 0 0);
+  /* no will-change: this animates exactly once, on boot, and the hint was
+     pinning a compositor layer for the rest of the session */
+}
+.system-hud .hud-item{white-space:nowrap}
+/* the live value gets its own node so the ticker can write textContent instead
+   of re-parsing innerHTML; it must not inherit the crimson label colour */
+.system-hud .hud-val{color:inherit}
+.system-hud span{color:var(--crimson)} /* carmine accent — the contrast voice inside the glass */
+.hud-divider{width:1px; height:11px; background:rgba(216,186,124,.2)}
+@media (max-width:768px){ .system-hud{display:none} }
+
+/* ─── Agency-tier polish: guarded 3D tilt + voltage click spike ─── */
+/* GPU-promote ONLY while something is actually being tilted. .cert-card used to
+   carry this permanently, pinning a compositor layer per card for the entire
+   session; it now lives on .cert-card.is-hot instead (see the rail block). */
+.hero-glass{ will-change:transform; }
+
+/* Voltage spike: brief brightness/glow surge toggled for 100ms on click.
+   transform untouched here so it never fights GSAP tilt. */
+.voltage{
+  filter:brightness(1.5) drop-shadow(0 0 14px rgba(230,57,80,.55));
+  transition:filter .1s ease-out;
+}
+
+/* ─── Hero container: CRYSTAL GLASS (v2) ───
+   The frosted-slab look is gone. This is a pane of polished crystal over the
+   AURUM field: a whisper of blur (6px, so the gold silk stays legible through
+   it), a saturation/brightness lift so the field GLOWS through the pane, a
+   gilded outer rim + white inner rim (the two-edge "cut glass" read), and a
+   specular sweep across the top-left corner like light striking the pane.
+   Web glassmorphism approximation — not Apple Liquid Glass. */
+.hero-glass{
+  position:relative; z-index:10; isolation:isolate; overflow:hidden;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.015) 38%,
+                    rgba(216,186,124,.045) 100%);
+  /* Restrained on purpose. The old saturate(170%) brightness(1.08) pumped the
+     ribbon's ember glow behind the pane into a muddy brown wash across the
+     whole card; at 118%/1.0 the band keeps its own colour and reads CRISP
+     through the crystal instead of smeared. */
+  backdrop-filter:blur(4px) saturate(118%) brightness(1);
+  -webkit-backdrop-filter:blur(4px) saturate(118%) brightness(1);
+  border:1px solid rgba(244,231,195,.18);
+  box-shadow:
+    var(--e4),
+    var(--rim-top-strong),
+    inset 0 -1px 0 rgba(255,255,255,.05),
+    inset 0 0 60px rgba(216,186,124,.045);
+  border-radius:var(--r-lg);
+  padding:clamp(26px,4vw,52px);
+}
+@media (max-width:900px){
+  #hero{padding-top:clamp(104px,11vh,132px); padding-bottom:56px}
+  .hero-glass{padding:clamp(26px,4.5vw,42px)}
+  .hero-name .split-chars{font-size:clamp(3rem,9.25vw,5.3rem) !important}
+  .hero-name .grad{font-size:clamp(1.55rem,4.7vw,2.7rem) !important}
+  .hero-bottom{grid-template-columns:1fr; align-items:start; gap:24px; margin-top:32px}
+  .hero-role{max-width:620px}
+  .hero-cta{grid-template-columns:auto auto; width:max-content; max-width:100%}
+}
+@media (max-width:600px){
+  #hero{min-height:auto; justify-content:flex-start; padding-top:104px; padding-bottom:72px}
+  .hero-meta{margin-bottom:16px; line-height:1.5}
+  .hero-glass{padding:24px 22px}
+  .hero-name .split-chars{font-size:clamp(2.55rem,12vw,4.15rem) !important}
+  .hero-name .grad{font-size:clamp(1.3rem,6.35vw,2.1rem) !important}
+  .hero-bottom{margin-top:26px; gap:20px}
+  .hero-role{font-size:.92rem; line-height:1.62}
+  .hero-cta{grid-template-columns:1fr 1fr; width:100%; gap:10px}
+  .hero-glass{overflow:visible}
+  .hero-cta .btn{padding:16px 14px; min-height:50px; font-size:.68rem}
+  .hero-cta .badge{padding:10px 14px; font-size:.62rem}
+}
+/* specular sweep — light striking the top-left of the pane (click-through) */
+.hero-glass::before{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:
+    radial-gradient(60% 40% at 16% 0%, rgba(255,255,255,.12), transparent 60%),
+    linear-gradient(100deg, rgba(255,255,255,.05), transparent 30%);
+}
+/* inner 1px rim — the second edge that makes the pane read as cut crystal */
+.hero-glass::after{
+  /* calc() off the parent token, so this rim can never drift from its pane */
+  content:""; position:absolute; inset:1px; border-radius:calc(var(--r-lg) - 1px); pointer-events:none;
+  border:1px solid rgba(255,255,255,.06);
+}
+/* solid-fill fallback so copy stays readable without transparency effects */
+@media (prefers-reduced-transparency: reduce){
+  .hero-glass{
+    background:rgba(10,9,7,.94);
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+  }
+}
+
+/* ─── Easter egg: captured-page ash disintegration ─── */
+.blackout-bg{background:#000 !important}
+.disintegrate-overlay{
+  position:fixed; inset:0; z-index:100000; display:block; pointer-events:none;
+  background:#000; transform-origin:center; will-change:transform,filter,opacity;
+}
+.disintegrate-overlay.is-glitching{
+  animation:destruct-glitch 210ms steps(2,end) both;
+}
+.disintegrate-overlay.is-fading{
+  opacity:0; transition:opacity 650ms cubic-bezier(.22,1,.36,1);
+}
+@keyframes destruct-glitch{
+  0%{transform:translate3d(0,0,0); filter:none; opacity:1}
+  20%{transform:translate3d(3px,-1px,0) scale(1.004); filter:contrast(1.45) saturate(.55) hue-rotate(-12deg)}
+  38%{transform:translate3d(-4px,1px,0) scale(.998); filter:contrast(1.8) brightness(1.2) hue-rotate(18deg); opacity:.72}
+  58%{transform:translate3d(2px,0,0); filter:contrast(1.25) saturate(1.7); opacity:1}
+  76%{transform:translate3d(-1px,1px,0); filter:brightness(.58) contrast(1.8); opacity:.84}
+  100%{transform:translate3d(0,0,0); filter:none; opacity:1}
+}
+
+/* ─── Easter egg: secret "cyber" ─ system compromised ───
+   (deliberate alarm-crimson: the ONE place red is allowed to flash) */
+.system-compromised{
+  position:fixed; inset:0; z-index:99998; display:flex;
+  align-items:center; justify-content:center; pointer-events:none;
+  font-family:var(--font-mono); font-size:clamp(1.6rem,6vw,4rem);
+  letter-spacing:.18em; color:var(--alarm);
+  text-shadow:0 0 14px rgba(255,0,85,.8), 0 0 40px rgba(255,0,85,.5);
+  background:rgba(40,0,12,.25);
+  animation:compromiseFlash .35s steps(2,end) 8;
+}
+@keyframes compromiseFlash{0%,100%{opacity:1}50%{opacity:.15}}
+
+/* swap the champagne accent → alarm crimson while compromised */
+/* The easter egg re-points the accent ROLE at --alarm rather than hardcoding a
+   hue, so every component that follows the system recolours automatically. */
+html.compromised{--champagne:var(--alarm); --gold-bright:var(--alarm-soft)}
+html.compromised #pbar{
+  background:linear-gradient(90deg,var(--alarm),#ff4d7d,var(--alarm)) !important;
+  box-shadow:0 0 14px var(--alarm),0 0 26px rgba(255,0,85,.6) !important;
+}
+
+/* ─── Easter egg: soft red matrix particle overlay ─── */
+.matrix-overlay{
+  position:fixed; inset:0; z-index:99997; pointer-events:none; overflow:hidden;
+}
+.matrix-drop{
+  position:absolute; top:-10vh;
+  font-family:var(--font-mono); color:var(--alarm);
+  opacity:.55; text-shadow:0 0 8px rgba(255,0,85,.7);
+  animation:matrixFall linear forwards;
+}
+@keyframes matrixFall{to{transform:translateY(118vh); opacity:0}}
+
+/* ═══ FINAL FEEDBACK — free on the page ═══
+   No card, no plaque, no crystal panel, no section number. The question is
+   plain JetBrains Mono in white and the two buttons sit directly beneath it on
+   the page background — nothing is boxed, bordered or elevated.
+
+   #feedback-arena is the ONE box, and it is invisible: zero border, zero
+   background. It exists only to give the runaway NO a bounded region to escape
+   into, so it can never land on the question, the answer line, the self
+   destruct, or outside the layout. Its height is the play area, not decoration. */
+.final-feedback-section{
+  position:relative; z-index:10; width:100%;
+  padding:clamp(60px,10vh,120px) 6vw clamp(44px,7vh,86px);
+  text-align:center; background:none; border:0;
+}
+.feedback-title{
+  /* was an ornate serif with a text-shadow glow — now straight mono, white,
+     restrained size and tracking */
+  font-family:var(--font-mono); font-weight:400; font-style:normal;
+  font-size:clamp(.95rem,1.7vw,1.14rem); line-height:1.5; letter-spacing:.08em;
+  color:#fff; text-shadow:none; text-wrap:balance;
+}
+.feedback-arena{
+  position:relative; width:100%; max-width:720px;
+  height:clamp(150px,22vh,196px);
+  margin:clamp(20px,3.4vh,32px) auto 0;
+  border:0; background:none;      /* the arena must never read as a container */
+}
+/* both buttons start perfectly centred side by side; JS only takes NO out of
+   this flow once it actually flees */
+.feedback-controls{
+  position:absolute; inset:0; margin:0; min-height:0;
+  display:flex; gap:clamp(16px,2.5vw,30px);
+  justify-content:center; align-items:center;
+}
+.fb-btn{
+  min-width:132px; padding:13px 32px; border-radius:var(--r-pill);
+  color:#fff; cursor:pointer;
+  font-family:var(--font-mono); font-size:.72rem; font-weight:600;
+  letter-spacing:.3em; text-transform:uppercase; background:transparent;
+  transition:background .3s var(--ease-out), box-shadow .3s var(--ease-out),
+             border-color .3s, color .3s;
+}
+.fb-btn:active{transform:scale(.95)}
+.fb-yes{border:1px solid rgba(216,186,124,.5); background:rgba(201,169,98,.08)}
+.fb-yes:hover{background:rgba(201,169,98,.2); border-color:var(--accent-strong);
+  box-shadow:var(--glow-accent)}
+.fb-no{border:1px solid rgba(230,57,80,.45); background:rgba(230,57,80,.07)}
+.fb-no:hover{background:rgba(230,57,80,.14); box-shadow:var(--glow-danger)}
+/* NO never leaves the flex row — it moves on transform ONLY. Two reasons:
+   going position:absolute would drop it out of the row and let YES slide back
+   to centre on the first dodge, and an identity transform already equals NO's
+   natural spot, so the first escape slides out of where it visually sits
+   instead of snapping to the arena's corner first. Transform is also pure
+   compositor work, so a 60fps chase touches no layout. */
+#no-btn.is-fleeing{
+  will-change:transform;
+  transition:transform .2s cubic-bezier(.22,.9,.3,1),
+             background .3s var(--ease-out), box-shadow .3s var(--ease-out),
+             border-color .3s, color .3s;
+}
+/* the .fb-btn :active scale would wipe out the translate mid-chase */
+#no-btn.is-fleeing:active{transform:var(--no-t,none)}
+#feedback-response{
+  font-family:var(--font-mono); font-weight:400; color:#fff; text-shadow:none;
+  margin-top:clamp(14px,2.2vh,22px); min-height:22px;
+  font-size:.8rem; letter-spacing:.05em;
+}
+.destruct-box{
+  display:flex; justify-content:center;
+  margin-top:clamp(24px,3.5vh,34px);
+}
+.fb-destruct{
+  color:#ff5c72; border:1px solid rgba(255,60,90,.35);
+  background:rgba(255,0,51,.04); padding:10px 24px; border-radius:var(--r-pill);
+  min-width:0;
+  font-family:var(--font-mono); font-size:.66rem; letter-spacing:.18em; text-transform:uppercase;
+  transition:background .3s var(--ease-out), box-shadow .3s var(--ease-out),
+             border-color .3s, color .3s;
+}
+.fb-destruct:hover{
+  color:#ff8ba0; border-color:rgba(255,60,90,.6);
+  background:rgba(255,0,51,.09);
+  box-shadow:0 0 22px rgba(255,0,51,.2);
+}
+@media (max-width:480px){
+  .feedback-controls{gap:12px}
+  /* narrower pills so two of them plus the flee margin still fit a phone */
+  .fb-btn{min-width:0; padding:12px 20px; width:auto}
+  .feedback-arena{height:186px}
+}
+/* Reduced motion: JS never arms the chase, so .is-fleeing is never applied and
+   NO simply stays where it is — an ordinary button with an honest answer. */
+
+/* ═══════════════ ANIMATED FOOTER — the closing ASCII statement ═══════════════
+   Two mirrored biometric fingerprint whorls redrawn as live ASCII on <canvas>,
+   igniting in clusters around the cursor, with MEHMOOD / LODHI unmasking
+   character-by-character as the footer enters the viewport.
+
+   NOTE: Tailwind is not loaded in this build — every utility class inside
+   animated-footer.tsx is inert, so this block carries the component's REAL
+   layout. It hangs off the stable data-af hooks (not the utility class names)
+   so it cannot drift: [data-af="hands"] is the pinned canvas row, [data-af="hand"]
+   the two parallax wrappers, [data-af="headings"] the display line. */
+#animatedFooterRoot{position:relative; z-index:10}
+.site-animated-footer-stage{
+  position:relative; width:100%;
+  height:clamp(460px, 78vh, 780px);
+  border-top:1px solid var(--line);
+}
+.site-animated-footer{
+  position:relative; display:block; width:100%; height:100%;
+  overflow:hidden;
+  /* the display line is retuned from 13cqw: two words sit side by side here,
+     and Syncopate runs ~40% wider than a normal face — without this clamp the
+     MEHMOOD LODHI lockup would run off both edges */
+  --af-heading-size:clamp(1.1rem, 5.2cqw, 5.4rem);
+}
+/* pinned canvas row — click-through so it never steals the cursor */
+.site-animated-footer [data-af="hands"]{
+  position:absolute; inset:0; pointer-events:none;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.site-animated-footer [data-af="hand"]{
+  position:relative; width:40%; min-width:200px; will-change:transform;
+}
+.site-animated-footer [data-af="hand"] canvas{
+  display:block; width:100%; height:auto;
+}
+/* display line — pinned to the bottom edge, the two words reading as one lockup */
+.site-animated-footer [data-af="headings"]{
+  position:absolute; left:0; right:0; bottom:0;
+  display:flex; align-items:flex-end; justify-content:center;
+  gap:clamp(14px, 2.6cqw, 44px);
+  padding:clamp(20px, 3.4cqw, 54px);
+}
+.site-animated-footer [data-af="headings"] h2{
+  /* overflow:hidden IS the mask the char reveal slides behind — without it the
+     glyphs simply sit 125% low instead of being hidden. The padding/margin pair
+     gives descenders room without disturbing the baseline. */
+  overflow:hidden;
+  font-family:var(--font-display);
+  font-weight:700; letter-spacing:.04em;
+  line-height:1; text-transform:uppercase;
+  padding-bottom:.15em; margin-bottom:-.15em;
+}
+/* Gilded fill sits on the CHAR SPANS, never on the <h2> — same discipline as
+   the hero masthead. GSAP slides each [data-af-char] on its own transform, and
+   a text-clip mask on the transformed element's PARENT goes stale as the child
+   moves, leaking the gradient box as a ghost glyph. One mask per glyph. */
+.site-animated-footer [data-af-char]{
+  display:inline-block;
+  background:linear-gradient(270deg,#8a6c35,#e8d2a0,#faf3e0,#c9a962,#8a6c35);
+  background-size:300% 300%;
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+  /* same one-shot treatment as the hero masthead. This loop was NOT covered by
+     the off-screen anim-off observer, so it repainted every footer glyph every
+     frame from the moment the island mounted. */
+  animation:grad 2.8s var(--ease-luxe) 1 both;
+}
+@media (max-width:768px){
+  /* shorter stage + wider whorls: at phone widths the hands are width-bound, so
+     a tall stage just banks dead space above them */
+  .site-animated-footer-stage{height:clamp(330px, 52vh, 460px)}
+  .site-animated-footer [data-af="hand"]{min-width:0; width:50%}
+}
+
+/* ─── Reduced motion: kill decorative loops; GSAP/Lenis are gated in JS ─── */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+  .chip:nth-child(odd), .chip:nth-child(even){ animation:none }
+}
+
+/* ─── Small-phone polish: hero lockup + CTA stack cleanly ─── */
+@media (max-width:480px){
+  .hero-name .grad{ letter-spacing:.38em; margin-right:-.38em }
+  /* Syncopate runs ~40% wider than a normal face; desktop tracking would wrap
+     the tagline on a phone, so its micro-label spacing compresses deliberately. */
+  .hero-tag{ margin-top:16px; font-size:.58rem; letter-spacing:.24em }
+  .hero-cta{ width:100% }
+  .hero-cta .btn{ justify-content:center }
+  .badge{ width:100%; justify-content:center }
+  /* NOTE: .fb-btn is deliberately NOT stretched here — a full-width NO has
+     nowhere left to run inside the arena. Its phone sizing lives with the
+     feedback block above. */
+}
+
+/* ═══ MICRO-INTERACTIONS — the premium layer ═══
+   Every effect here is transform/opacity/filter only, gated on hover, and
+   reads once: no infinite loops, no layout work. */
+
+/* buttons: a light sweep crosses the pill once on hover */
+.btn::after{content:""; position:absolute; top:-20%; bottom:-20%; left:0; width:38%; z-index:1;
+  pointer-events:none; opacity:0;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.26),transparent);
+  transform:skewX(-18deg) translateX(-140%)}
+.btn:hover::after{animation:btnShine .85s var(--ease-out) 1}
+@keyframes btnShine{0%{opacity:0; transform:skewX(-18deg) translateX(-140%)}
+  20%{opacity:1} 100%{opacity:0; transform:skewX(-18deg) translateX(440%)}}
+
+/* hero crystal: a warm light pool follows the cursor across the pane */
+.hero-glass .glass-glow{position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  z-index:0; opacity:0; transition:opacity .5s ease;
+  background:radial-gradient(460px circle at var(--mx,50%) var(--my,50%),
+    rgba(216,186,124,.14), rgba(230,57,80,.05) 42%, transparent 72%)}
+.hero-glass:hover .glass-glow{opacity:1}
+
+/* intel report: cells light from under the cursor */
+.stat::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:0;
+  transition:opacity .45s ease;
+  background:radial-gradient(260px circle at var(--gx,50%) var(--gy,50%),
+    rgba(216,186,124,.12), transparent 70%)}
+.stat:hover::before{opacity:1}
+.stat .num{transition:transform .5s var(--ease-out)}
+.stat:hover .num{transform:translateY(-4px)}
+
+/* sentinel words: targeting brackets snap onto the hovered node */
+.sentinel-node::before, .sentinel-node::after{content:""; position:absolute; top:-6px; bottom:-6px; width:7px;
+  border:1px solid rgba(255,216,122,.85); opacity:0;
+  transition:opacity .2s ease, transform .25s var(--ease-out)}
+.sentinel-node::before{left:-13px; border-right:0; transform:translateX(6px)}
+.sentinel-node::after{right:-13px; border-left:0; transform:translateX(-6px)}
+.sentinel-node.is-hot::before, .sentinel-node.is-hot::after{opacity:1; transform:none}
+
+/* journey markers lift a hair on hover; chips get a snappier press */
+.tl-item{transition:transform .5s var(--ease-out)}
+.tl-item:hover{transform:translateX(6px)}
+.chip:active{transform:translateY(-2px) scale(.97)}
+
+/* nav logo: gentle letter-spread on hover */
+.logo{transition:letter-spacing .45s var(--ease-out), background .55s ease, border-color .55s ease,
+  box-shadow .55s ease, -webkit-backdrop-filter .55s ease, backdrop-filter .55s ease}
+.logo:hover{letter-spacing:.42em}
